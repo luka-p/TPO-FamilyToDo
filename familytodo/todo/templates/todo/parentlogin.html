@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Prijava/Registracija</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="{% static 'todo/bs/css/flatly.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'todo/styles.css' %}" />
+	</head>
+	<body>
+
+		<div class="container-fluid" id="wrapper">
+
+			<div class="row">
+				<div class="col-lg-4 col-lg-offset-4" id="content">
+					<h2>LOGIN<h2>
+					<form action="{% url 'parentlogin' %}" method="POST" role="form">
+						{% csrf_token %}
+						<div class="form-group">
+							<div class="input-group">
+							  {{ form.username }}
+							  {{ form.password }}
+							</div>
+							<br>
+							  <span class="input-group-btn">
+								  <button type="submit" class="btn btn-default" id="add-btn" name="login">LOGIN</button>
+							  </span>
+								<span class="input-group-btn">
+								  <button type="submit" class="btn btn-default" id="add-btn" name="register">REGISTER</button>
+							  </span>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

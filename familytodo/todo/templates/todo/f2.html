@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>FRI2</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="{% static 'todo/bs/css/flatly.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'todo/styles.css' %}" />
+    <style>
+      .input-group .form-control {
+        margin-bottom: 10px;
+      }
+      ul {list-style:none}
+    </style>
+	</head>
+	<body>
+
+		<div class="container-fluid" id="wrapper">
+
+			<div class="row">
+				<div class="col-lg-6 col-lg-offset-3" id="content">
+          <center><img src="{% static 'todo/images/logo_fri.png' %}">
+          <h2>Vloga za prijavo teme magisterskega dela</h2></center>
+					{% if not msg %}
+					<p>Podpisani/-a študent/-ka magistrskega programa na Fakulteti za računalništvo in infor-
+						 matiko, zaprošam Komisijo za študijske zadeve, da odobri temo dela, podrobno opisanega
+						 v nadaljnjem predlogu teme magistrskega dela.</p>
+					{% endif %}
+					<hr>
+					<form action="{% url 'f2' %}" method="POST" role="form">
+						{% csrf_token %}
+						<div class="form-group">
+							<div class="input-group">
+								{{ form.as_p }}
+							</div>
+						</div>
+						{% if msg %}
+							<center><h2>{{ msg }}</h2></center>
+						{% else %}
+						<span class="input-group-btn">
+							<button type="submit" class="btn btn-default" id="add-btn">ODDAJ</button>
+						</span>
+						{% endif %}
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
