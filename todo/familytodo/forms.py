@@ -34,7 +34,7 @@ class ChildLoginForm(forms.Form):
 ''' Task adding form '''
 class TaskAddForm(forms.Form):
     task_name = forms.CharField(label="Task name", max_length=30, strip=True)
-    task_importance = forms.ChoiceField(label="Task importance", choices=[(tag, tag.value) for tag in Importance]) 
+    task_importance = forms.ChoiceField(label="Task importance", choices=[(tag, tag.value) for tag in Importance], initial=Importance.MEDIUM) 
     task_reward = forms.CharField(label="Task reward", max_length=30, strip=True)
     task_due = forms.IntegerField(label="Taks due days", min_value=0, error_messages=err_msg)
     ''' child choice will be added from views and passed to the html from and than back 
