@@ -6,3 +6,9 @@ class Importance(Enum):
     HIGH = 'High'
     MEDIUM = 'Medium'
     LOW = 'Low'
+
+''' tuple for task importance choice '''
+IMPORTANCE = (
+    ('HIGH', 'High'),
+    ('MEDIUM', 'Medium'),
+    ('LOW', 'Low'))
