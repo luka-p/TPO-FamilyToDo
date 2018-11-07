@@ -1,12 +1,14 @@
 from django.db import models
 from django import forms
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from .enums import Importance
 
 ''' Family model '''
 class Family(models.Model):
     family_name = models.CharField('Family name', max_length=30)
     password = models.CharField('Password', max_length=30)
+    ''' easy password is 4 digit number for kids to remember faster '''
+    easy_password = models.IntegerField('Easy Password', validators=[MinValueValidator(0000),MaxValueValidator(9999)])
 
     ''' overwrite of default __str__ method, returns name of family '''
     def __str__(self):
