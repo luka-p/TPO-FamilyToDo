@@ -16,3 +16,8 @@ class FamilyLoginForm(forms.Form):
     family_name = forms.CharField(label="Family name", max_length=30, strip=True)
     family_parent = forms.CharField(label="Parent name", max_length=30m strip=True)
     family_password = forms.CharField(label="Family password", max_length=30, widget=forms.PasswordInput)
+
+''' Child login form '''
+class ChildLoginForm(forms.Form):
+    family_name = forms.CharField(label="Family name", max_length=30, strip=True)
+    family_easy_password = forms.IntegerField(label="Family password", min_value=0000, max_value=9999, widget=forms.PasswordInput)
