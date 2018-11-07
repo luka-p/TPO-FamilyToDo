@@ -4,7 +4,9 @@ from .enums import Importance
 ''' error messages dict '''
 err_msg = {
     'required': 'This field is required',
-    'invalid': 'Please enter numeric password that is four digits long.'
+    'invalid': 'Invalid field',
+    'max_value': 'Please enter numeric password that is four digits long.',
+    'min_value': 'Please enter numeric password that is four digits long.',
 }
 
 ''' Family registration form '''
@@ -21,7 +23,7 @@ class FamilyRegistrationForm(forms.Form):
 ''' Family login form '''
 class FamilyLoginForm(forms.Form):
     family_name = forms.CharField(label="Family name", max_length=30, strip=True)
-    family_parent = forms.CharField(label="Parent name", max_length=30m strip=True)
+    family_parent = forms.CharField(label="Parent name", max_length=30, strip=True)
     family_password = forms.CharField(label="Family password", max_length=30, widget=forms.PasswordInput)
 
 ''' Child login form '''
