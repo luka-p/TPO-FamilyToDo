@@ -46,6 +46,7 @@ class Task(models.Model):
     ''' taks belongs to one family and to one child '''
     task_family = models.OneToOneField(Family, on_delete=models.CASCADE, verbose_name="Task belongs to family", null=True)
     task_child = models.OneToOneField(Child, on_delete=models.CASCADE, verbose_name="Task belongs to child", null=True)
+    ''' is task complete or not, boolean value '''
     task_complete = models.BooleanField(default=False)
 
     ''' overwrite of default __str__ method, returns name of task '''
