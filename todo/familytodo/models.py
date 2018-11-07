@@ -38,7 +38,7 @@ class Task(models.Model):
     ''' task name/description '''
     task_name = models.CharField('Task', max_length=30)
     ''' taks importance, enum field(high, medium, low) '''
-    task_importance = models.CharField('Importance', max_length=3, choices=[(tag, tag.value) for tag in Importance])
+    task_importance = models.CharField('Importance', max_length=3, choices=[(tag, tag.value) for tag in Importance], initial=Importance.MEDIUM)
     ''' task reward, parent addes reward when completed, can be null/blak '''
     task_reward = models.CharField('Reward', max_length=30, null=True, blank=True)
     ''' days to finish taks, 0 means no limit, only pozitive integers '''
