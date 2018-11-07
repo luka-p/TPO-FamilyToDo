@@ -10,3 +10,9 @@ class FamilyRegistrationForm(forms.Form):
     ''' Family parents '''
     father_name = forms.CharField(label="Father name", max_length=30, strip=True)
     mother_name = forms.CharField(label="Mother name", max_length=30, strip=True)
+
+''' Family login form '''
+class FamilyLoginForm(forms.Form):
+    family_name = forms.CharField(label="Family name", max_length=30, strip=True)
+    family_parent = forms.CharField(label="Parent name", max_length=30m strip=True)
+    family_password = forms.CharField(label="Family password", max_length=30, widget=forms.PasswordInput)
