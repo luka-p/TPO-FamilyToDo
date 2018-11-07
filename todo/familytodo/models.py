@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from .enums import IMPORTANCE
 
 ''' Family model '''
 class Family(models.Model):
@@ -36,11 +37,6 @@ class Child(models.Model):
 class Task(models.Model):
     ''' task name/description '''
     task_name = models.CharField('Task', max_length=30)
-    ''' tuple for task importance choice '''
-    IMPORTANCE = (
-        ('HIGH', 'High'),
-        ('MEDIUM', 'Medium'),
-        ('LOW', 'Low'))
     ''' taks importance, high, medium, low '''
     task_importance = models.CharField('Importance', max_length=6, choices=IMPORTANCE)
     ''' task reward, parent addes reward when completed, can be null/blak '''
