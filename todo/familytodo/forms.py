@@ -4,7 +4,7 @@ from .enums import Importance
 ''' error messages dict '''
 err_msg = {
     'required': 'This field is required',
-    'invalid': 'Invalid field',
+    'invalid': 'Enter valid input',
     'max_value': 'Please enter numeric password that is four digits long.',
     'min_value': 'Please enter numeric password that is four digits long.',
 }
