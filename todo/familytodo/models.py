@@ -14,16 +14,6 @@ class Family(models.Model):
     def __str__(self):
         return self.family_name
 
-'''
-''' Family model forms '''
-class FamilyForm(forms.ModelForm):
-    ''' meta class so password will be masked '''
-    class Meta:
-        model = Family
-        fields = "__all__"
-        widget = {'password': forms.PasswordInput()}
-'''
-
 ''' Parent model '''
 class Parent(models.Model):
     parent_name = models.CharField('Parent name', max_length=30)
