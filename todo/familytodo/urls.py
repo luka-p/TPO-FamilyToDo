@@ -1,10 +1,14 @@
-from django.urls import re_path
+from django.urls import path
 from .views import (index,
                     register_family,
-                    login_family)
+                    login_parent,
+                    login_child,
+                    add_task)
 
 urlpatterns = [
-    re_path('', index),
-    re_path(r'^register/', register_family),
-    re_path(r'^login/', login_family)
+    path('', index),
+    path('family-register', register_family),
+    path('parent-login', login_parent),
+    path('child-login', login_child),
+    path('task-add', add_task),
 ]
