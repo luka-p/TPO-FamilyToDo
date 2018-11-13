@@ -1,10 +1,17 @@
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+
+
 from .forms import (FamilyRegistrationForm,
                     FamilyLoginForm,
                     ChildLoginForm,
                     TaskAddForm)
+
+from .models import (Family,
+                     Parent,
+                     Child,
+                     Task)
 
 def index(request):
     return None
@@ -14,7 +21,22 @@ def register_family(request):
     if request.method == 'POST':
         form = FamilyRegistrationForm(request.POST)
         if form.is_valid():
-
+            form_data=form.cleaned_data
+            family = Family(family_name=form_data['family_name'],
+                            password=form_data['family_password'],
+                            easy_password=form_data['family_easy_password'])
+            if family is not None:
+                family.save()
+            father = Parent(parent_name=form_data['father_name'],
+                   parent_family=family)
+            if father is not None:
+                father.save()
+            mother = Parent(parent_name=form_data['mother_name'],
+                   parent_family=family)
+            if father is not None:
+                father.save()
+            if mother is not None:
+                mother.save()
             return HttpResponseRedirect('')
     else:
         form = FamilyRegistrationForm()
