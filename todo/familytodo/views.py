@@ -44,3 +44,15 @@ def login_child(request):
         form = ChildLoginForm()
 
     return render(request, 'child_login.html', {'form': form})
+
+@require_http_methods(["GET", "POST"])
+def add_task(request):
+    if request.method == 'POST':
+        form = TaskAddForm(request.POST)
+        if form.is_valid():
+            
+            return HttpResponseRedirect('')
+    else:
+        form = TaskAddForm()
+
+    return render(request, 'task-add.html', {'form': form})
