@@ -1,0 +1,20 @@
+<p>{{ family }}</p>
+<p>{{ parent }}</p>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ task_form.as_p }}
+		<select>
+		{% for child in kids %}
+		<option value="{{ child }}">{{ child }}</option>
+		{% endfor %}
+		</select>
+    <input type="submit" value="Add task">
+</form>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ child_form.as_p }}
+    <input type="submit" value="Add child">
+</form>
+{% for task in tasks %}
+<p>{{ task.task_name }}</p>
+{% endfor %}
