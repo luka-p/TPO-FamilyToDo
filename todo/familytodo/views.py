@@ -6,6 +6,7 @@ from django.shortcuts import render
 from .forms import (FamilyRegistrationForm,
                     FamilyLoginForm,
                     ChildLoginForm,
+                    ChildAddForm,
                     TaskAddForm)
 
 from .models import (Family,
@@ -48,7 +49,23 @@ def login_parent(request):
     if request.method == 'POST':
         form = FamilyLoginForm(request.POST)
         if form.is_valid():
-
+            form_data = form.cleaned_data
+            try:
+                family = Family.objects.get(family_name=form_data['family_name'])
+                family_parents = [p.parent_name for p in Parent.objects.filter(parent_family=family)]
+                if(family.password == form_data['family_password'] and form_data['family_parent'] in family_parents):
+                    family_name = form_data['family_name'] 
+                    parent_name = form_data['family_parent']
+                    family_kids = [c.child_name for c in Child.objects.filter(child_family=family)]
+                    existing_tasks = [t for t in Task.objects.filter(task_family=family)]
+                    child_form = ChildAddForm()
+                    task_form = TaskAddForm()
+                    return render(request, 'control-panel.html',
+                            {'task_form': task_form, 'child_form': child_form, 
+                             'family': family_name, 'parent': parent_name, 'kids': family_kids,
+                             'tasks': existing_tasks})
+            except:
+                pass
             return HttpResponseRedirect('')
     else:
         form = FamilyLoginForm()
