@@ -1,11 +1,10 @@
-from django.contrib import admin
-from django.urls import path
+from django.urls import re_path
 from .views import (index,
                     register_family,
                     login_family)
 
 urlpatterns = [
-    path('', index),
-    path('', register_family),
-    path('', login_family)
+    re_path('', index),
+    re_path(r'^register/', register_family),
+    re_path(r'^login/', login_family)
 ]
