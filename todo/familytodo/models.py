@@ -17,7 +17,7 @@ class Family(models.Model):
 class Parent(models.Model):
     parent_name = models.CharField('Parent name', max_length=30)
     ''' Family can have two parents but parent can have only one family, many-to-one '''
-    parent_family = models.ForeignKey(Family, on_delete=models.CASCADE, verbose_name='Parent family')
+    parent_family = models.ForeignKey(Family, on_delete=models.CASCADE, verbose_name='Parent family', null=True)
 
     ''' overwrite of default __str__ method, returns name of parent '''
     def __str__(self):
