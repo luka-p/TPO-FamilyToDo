@@ -31,6 +31,10 @@ class ChildLoginForm(forms.Form):
     family_name = forms.CharField(label="Family name", max_length=30, strip=True)
     family_easy_password = forms.IntegerField(label="Family password", min_value=0000, max_value=9999, widget=forms.PasswordInput, error_messages=err_msg)
 
+''' Child add form '''
+class ChildAddForm(forms.Form):
+    child_name = forms.CharField(label="Child name", max_length=30, strip=True)
+
 ''' Task adding form '''
 class TaskAddForm(forms.Form):
     task_name = forms.CharField(label="Task name", max_length=30, strip=True)
