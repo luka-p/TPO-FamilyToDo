@@ -3,11 +3,6 @@
 <form action="" method="POST">
     {% csrf_token %}
     {{ task_form.as_p }}
-		<select>
-		{% for child in kids %}
-		<option value="{{ child }}">{{ child }}</option>
-		{% endfor %}
-		</select>
     <input type="submit" value="Add task">
 </form>
 <form action="" method="POST">
