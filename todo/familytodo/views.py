@@ -42,21 +42,22 @@ def register_family(request):
             return HttpResponseRedirect('')
     else:
         form = FamilyRegistrationForm()
+        return render(request, 'family_register.html', {'form': form})
 
-    return render(request, 'family_register.html', {'form': form})
+    return render(request, 'error.html')
 
 @require_http_methods(["GET", "POST"])
 def login_parent(request):
     if request.method == 'POST':
         form = FamilyLoginForm(request.POST)
         if form.is_valid():
-            form_data = form.cleaned_data
+            f = form.cleaned_data
             try:
                 family = Family.objects.get(family_name=form_data['family_name'])
                 family_parents = [p.parent_name for p in Parent.objects.filter(parent_family=family)]
-                if family.password == form_data['family_password'] and form_data['family_parent'] in family_parents:
-                    family_name = form_data['family_name'] 
-                    parent_name = form_data['family_parent']
+                if family.password == f['family_password'] and f['family_parent'] in family_parents:
+                    family_name = f['family_name'] 
+                    parent_name = f['family_parent']
                     request.session['family_name'] = family_name
                     request.session['parent_name'] = parent_name
                     return redirect('task-add')
@@ -65,20 +66,38 @@ def login_parent(request):
             return HttpResponseRedirect('')
     else:
         form = FamilyLoginForm()
+        return render(request, 'parent_login.html', {'form': form})
 
-    return render(request, 'parent_login.html', {'form': form})
+    return render(request, 'error.html')
 
 @require_http_methods(["GET", "POST"])
 def login_child(request):
     if request.method == 'POST':
         form = ChildLoginForm(request.POST)
         if form.is_valid():
-            
+            f = form.cleaned_data
+            try:
+                family = Family.objects.get(family_name=f['family_name'])
+                if family.easy_password == f['family_easy_password']:
+                    family_name = f['family_name'] 
+                    request.session['family_name'] = family_name
+                    return redirect('task-display')
+            except:
+                raise
             return HttpResponseRedirect('')
     else:
         form = ChildLoginForm()
+        return render(request, 'child_login.html', {'form': form})
 
-    return render(request, 'child_login.html', {'form': form})
+    return render(request, 'error.html')
+
+@require_http_methods(["GET"])
+def display_task(request):
+    family_name = request.session.get('family_name')
+    qf = Q(family_name__in=[family_name])
+    family = Family.objects.get(qf)
+    existing_tasks = [t for t in Task.objects.filter(task_family=family)]
+    return render(request, 'task_display.html', {'family': family_name, 'tasks': existing_tasks})
 
 @require_http_methods(["GET", "POST"])
 def add_task(request):
@@ -116,7 +135,7 @@ def add_task(request):
         task_form = TaskAddForm()
         task_form.fields['task_child'].choices = family_kids
         task_form.fields['task_child'].initial = family_kids[0] 
-        return render(request, 'control-panel.html',
+        return render(request, 'task_add.html',
                 {'task_form': task_form, 'child_form': child_form, 
                  'family': family_name, 'parent': parent_name,
                  'tasks': existing_tasks})
