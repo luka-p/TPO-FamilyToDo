@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-from .enums import IMPORTANCE
+
 
 ''' Family model '''
 class Family(models.Model):
@@ -32,6 +32,15 @@ class Child(models.Model):
     ''' overwrite of default __str__ method, returns name of child '''
     def __str__(self):
         return self.child_name
+
+''' tuple for task importance choice '''
+IMPORTANCE = (
+    ('HIGH', 'High'),
+    ('MEDIUM', 'Medium'),
+    ('LOW', 'Low'))
+
+''' tuple for children add form choices '''
+CHILDREN = [(c.child_name, c.child_name) for c in Child.objects.all()]
 
 ''' Task model '''
 class Task(models.Model):
