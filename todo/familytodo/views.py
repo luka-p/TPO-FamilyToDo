@@ -16,24 +16,24 @@ from .models import (Family,
                      Task)
 
 def index(request):
-    return None
+    return render(request, 'index.html')
 
 @require_http_methods(["GET", "POST"])
 def register_family(request):
     if request.method == 'POST':
         form = FamilyRegistrationForm(request.POST)
         if form.is_valid():
-            form_data=form.cleaned_data
-            family = Family(family_name=form_data['family_name'],
-                            password=form_data['family_password'],
-                            easy_password=form_data['family_easy_password'])
+            f = form.cleaned_data
+            family = Family(family_name=f['family_name'],
+                            password=f['family_password'],
+                            easy_password=f['family_easy_password'])
             if family is not None:
                 family.save()
-            father = Parent(parent_name=form_data['father_name'],
+            father = Parent(parent_name=f['father_name'],
                    parent_family=family)
             if father is not None:
                 father.save()
-            mother = Parent(parent_name=form_data['mother_name'],
+            mother = Parent(parent_name=f['mother_name'],
                    parent_family=family)
             if father is not None:
                 father.save()
@@ -53,7 +53,7 @@ def login_parent(request):
         if form.is_valid():
             f = form.cleaned_data
             try:
-                family = Family.objects.get(family_name=form_data['family_name'])
+                family = Family.objects.get(family_name=f['family_name'])
                 family_parents = [p.parent_name for p in Parent.objects.filter(parent_family=family)]
                 if family.password == f['family_password'] and f['family_parent'] in family_parents:
                     family_name = f['family_name'] 
@@ -133,8 +133,12 @@ def add_task(request):
         existing_tasks = [t for t in Task.objects.filter(task_family=family)]
         child_form = ChildAddForm()
         task_form = TaskAddForm()
-        task_form.fields['task_child'].choices = family_kids
-        task_form.fields['task_child'].initial = family_kids[0] 
+        if len(family_kids) != 0:
+            task_form.fields['task_child'].choices = family_kids
+            task_form.fields['task_child'].initial = family_kids[0] 
+        else:
+            task_form.fields['task_child'].choices = [('-------','-------')]
+            task_form.fields['task_child'].initial =  ('-------','-------')
         return render(request, 'task_add.html',
                 {'task_form': task_form, 'child_form': child_form, 
                  'family': family_name, 'parent': parent_name,
