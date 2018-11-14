@@ -7,8 +7,8 @@ from .views import (index,
 
 urlpatterns = [
     path('', index),
-    path('family-register', register_family),
-    path('parent-login', login_parent),
-    path('child-login', login_child),
-    path('task-add', add_task),
+    path('family-register', register_family, name='family-register'),
+    path('parent-login', login_parent, name=parent-login),
+    path('child-login', login_child, name='child-login'),
+    path('task-add', add_task, name='task-add'),
 ]

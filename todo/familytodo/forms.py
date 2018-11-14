@@ -38,9 +38,9 @@ class ChildAddForm(forms.Form):
 ''' Task adding form '''
 class TaskAddForm(forms.Form):
     task_name = forms.CharField(label="Task name", max_length=30, strip=True)
-    task_family = forms.CharField(label="Task family", max_length=30, strip=True, disabled=True, widget=forms.HiddenInput())
+    task_family = forms.CharField(label="Task family", max_length=30, required=False, disabled=True, widget=forms.HiddenInput())
     task_importance = forms.ChoiceField(label="Task importance", choices=IMPORTANCE, initial='MEDIUM') 
     task_reward = forms.CharField(label="Task reward", max_length=30, strip=True)
     task_due = forms.IntegerField(label="Taks due days", min_value=0, error_messages=err_msg)
-    task_child = forms.ChoiceField(label="Child", choices=[(None,None)])
+    task_child = forms.ChoiceField(label="Child", choices=[('Zala','Zala')])
 

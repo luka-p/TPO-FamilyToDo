@@ -1,6 +1,6 @@
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 from .forms import (FamilyRegistrationForm,
@@ -56,16 +56,9 @@ def login_parent(request):
                 if family.password == form_data['family_password'] and form_data['family_parent'] in family_parents:
                     family_name = form_data['family_name'] 
                     parent_name = form_data['family_parent']
-                    family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)] 
-                    existing_tasks = [t for t in Task.objects.filter(task_family=family)]
-                    child_form = ChildAddForm()
-                    task_form = TaskAddForm()
-                    task_form.fields['task_child'].choices = family_kids
-                    task_form.fields['task_child'].initial = family_kids[0] 
-                    return render(request, 'control-panel.html',
-                            {'task_form': task_form, 'child_form': child_form, 
-                             'family': family_name, 'parent': parent_name,
-                             'tasks': existing_tasks})
+                    request.session['family_name'] = family_name
+                    request.session['parent_name'] = parent_name
+                    return redirect('task-add')
             except:
                 raise
             return HttpResponseRedirect('')
@@ -91,9 +84,27 @@ def add_task(request):
     if request.method == 'POST':
         form = TaskAddForm(request.POST)
         if form.is_valid():
-            
+            f = form.cleaned_data
+            print(f)
+            family = Family.objects.get(family_name=f['task_family'])
+            task = Task(task_name=f['task_name'], task_family=family, task_importance=f['task_importance'], task_reward=f['task_reward'], task_due=f['task_due'], task_child=f['task_child'], task_complete=False)
+            if task is not None:
+                task.save()
             return HttpResponseRedirect('')
     else:
-        form = TaskAddForm()
+        family_name = request.session.get('family_name')
+        parent_name = request.session.get('parent_name')
+        family = Family.objects.get(family_name=family_name)
+        family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)] 
+        existing_tasks = [t for t in Task.objects.filter(task_family=family)]
+        child_form = ChildAddForm()
+        task_form = TaskAddForm()
+        task_form.fields['task_child'].choices = family_kids
+        task_form.fields['task_child'].initial = family_kids[0] 
+        task_form.fields['task_family'].initial = family_name 
+        return render(request, 'control-panel.html',
+                {'task_form': task_form, 'child_form': child_form, 
+                 'family': family_name, 'parent': parent_name,
+                 'tasks': existing_tasks})
 
-    return render(request, 'task-add.html', {'form': form})
+    return render(request, 'error.html')
