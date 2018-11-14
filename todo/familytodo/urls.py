@@ -6,9 +6,9 @@ from .views import (index,
                     add_task)
 
 urlpatterns = [
-    path('', index),
+    path('', index, name='index'),
     path('family-register', register_family, name='family-register'),
-    path('parent-login', login_parent, name=parent-login),
+    path('parent-login', login_parent, name='parent-login'),
     path('child-login', login_child, name='child-login'),
     path('task-add', add_task, name='task-add'),
 ]
