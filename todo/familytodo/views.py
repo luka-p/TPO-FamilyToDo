@@ -39,12 +39,11 @@ def register_family(request):
                 father.save()
             if mother is not None:
                 mother.save()
-            return HttpResponseRedirect('')
+            return redirect('index')
     else:
         form = FamilyRegistrationForm()
-        return render(request, 'family_register.html', {'form': form})
 
-    return render(request, 'error.html')
+    return render(request, 'family_register.html', {'form': form})
 
 @require_http_methods(["GET", "POST"])
 def login_parent(request):
@@ -66,9 +65,9 @@ def login_parent(request):
             return HttpResponseRedirect('')
     else:
         form = FamilyLoginForm()
-        return render(request, 'parent_login.html', {'form': form})
 
-    return render(request, 'error.html')
+    return render(request, 'parent_login.html', {'form': form})
+
 
 @require_http_methods(["GET", "POST"])
 def login_child(request):
@@ -87,9 +86,8 @@ def login_child(request):
             return HttpResponseRedirect('')
     else:
         form = ChildLoginForm()
-        return render(request, 'child_login.html', {'form': form})
 
-    return render(request, 'error.html')
+    return render(request, 'child_login.html', {'form': form})
 
 @require_http_methods(["GET"])
 def display_task(request):
