@@ -11,4 +11,5 @@ urlpatterns = [
     path('parent-login', login_parent, name='parent-login'),
     path('child-login', login_child, name='child-login'),
     path('task-add', add_task, name='task-add'),
+    path('task-display', display_task, name='task-display'),
 ]
