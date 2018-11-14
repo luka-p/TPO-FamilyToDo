@@ -3,7 +3,8 @@ from .views import (index,
                     register_family,
                     login_parent,
                     login_child,
-                    add_task)
+                    add_task,
+                    display_task)
 
 urlpatterns = [
     path('', index, name='index'),
