@@ -41,9 +41,7 @@ class TaskAddForm(forms.Form):
     task_importance = forms.ChoiceField(label="Task importance", choices=IMPORTANCE, initial='MEDIUM') 
     task_reward = forms.CharField(label="Task reward", max_length=30, strip=True)
     task_due = forms.IntegerField(label="Taks due days", min_value=0, error_messages=err_msg)
-    ''' child choice will be added from views and passed to the html from and than back 
-    if i find better solution will add it later '''
-    ''' https://stackoverflow.com/questions/35164723/pass-choices-from-views-to-form '''
+    task_child = forms.ChoiceField(label="Child", choices=[(None,None)])
     ''' form = Form()
         form.fields['title'].choices = [(title.title, title.title) for title in titles]
         form.fields['title'].initial = titles[0].title  # by default first will be selected 
