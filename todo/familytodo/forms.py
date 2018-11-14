@@ -43,4 +43,5 @@ class TaskAddForm(forms.Form):
     task_due = forms.IntegerField(label="Taks due days", min_value=0, error_messages=err_msg)
     ''' child choice will be added from views and passed to the html from and than back 
     if i find better solution will add it later '''
+    ''' https://stackoverflow.com/questions/35164723/pass-choices-from-views-to-form '''
 
