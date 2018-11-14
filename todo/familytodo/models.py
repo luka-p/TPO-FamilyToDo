@@ -43,9 +43,9 @@ class Task(models.Model):
     task_reward = models.CharField('Reward', max_length=30, null=True, blank=True)
     ''' days to finish taks, 0 means no limit, only pozitive integers '''
     task_due = models.IntegerField('Due days', default=0, validators=[MinValueValidator(0)])
-    ''' taks belongs to one family and to one child '''
-    task_family = models.OneToOneField(Family, on_delete=models.CASCADE, verbose_name="Task belongs to family", null=True)
-    task_child = models.OneToOneField(Child, on_delete=models.CASCADE, verbose_name="Task belongs to child", null=True)
+    ''' taks belongs to one family and to one child, but, family can have more task and so child '''
+    task_family = models.ForeignKey(Family, on_delete=models.CASCADE, verbose_name="Task belongs to family", null=True)
+    task_child = models.ForeignKey(Child, on_delete=models.CASCADE, verbose_name="Task belongs to child", null=True)
     ''' is task complete or not, boolean value '''
     task_complete = models.BooleanField(default=False)
 
