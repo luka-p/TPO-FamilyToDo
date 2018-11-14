@@ -1,6 +1,7 @@
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.db.models import Q
 
 
 from .forms import (FamilyRegistrationForm,
@@ -82,15 +83,29 @@ def login_child(request):
 @require_http_methods(["GET", "POST"])
 def add_task(request):
     if request.method == 'POST':
-        form = TaskAddForm(request.POST)
-        if form.is_valid():
-            f = form.cleaned_data
-            print(f)
-            family = Family.objects.get(family_name=f['task_family'])
-            task = Task(task_name=f['task_name'], task_family=family, task_importance=f['task_importance'], task_reward=f['task_reward'], task_due=f['task_due'], task_child=f['task_child'], task_complete=False)
+        taskform = TaskAddForm(request.POST)
+        childform = ChildAddForm(request.POST)
+        family_name = request.session.get('family_name')
+        if taskform.is_valid():
+            f = taskform.cleaned_data
+            qf = Q(family_name__in=[family_name])
+            qk = Q(child_name__in=[f['task_child']])
+            family = Family.objects.get(qf)
+            child = Child.objects.get(qf and qk)
+            task = Task(task_name=f['task_name'], task_family=family, task_importance=f['task_importance'],
+                        task_reward=f['task_reward'], task_due=f['task_due'], task_child=child,
+                        task_complete=False)
             if task is not None:
                 task.save()
-            return HttpResponseRedirect('')
+        if childform.is_valid():
+            f = childform.cleaned_data
+            qf = Q(family_name__in=[family_name])
+            family = Family.objects.get(qf)
+            child = Child(child_name=f['child_name'], child_family=family)
+            if child is not None:
+                child.save()
+        request.session['family_name'] = family_name
+        return redirect('task-add') 
     else:
         family_name = request.session.get('family_name')
         parent_name = request.session.get('parent_name')
