@@ -116,7 +116,6 @@ def add_task(request):
         task_form = TaskAddForm()
         task_form.fields['task_child'].choices = family_kids
         task_form.fields['task_child'].initial = family_kids[0] 
-        task_form.fields['task_family'].initial = family_name 
         return render(request, 'control-panel.html',
                 {'task_form': task_form, 'child_form': child_form, 
                  'family': family_name, 'parent': parent_name,
