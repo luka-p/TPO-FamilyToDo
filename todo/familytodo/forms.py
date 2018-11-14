@@ -44,4 +44,8 @@ class TaskAddForm(forms.Form):
     ''' child choice will be added from views and passed to the html from and than back 
     if i find better solution will add it later '''
     ''' https://stackoverflow.com/questions/35164723/pass-choices-from-views-to-form '''
+    ''' form = Form()
+        form.fields['title'].choices = [(title.title, title.title) for title in titles]
+        form.fields['title'].initial = titles[0].title  # by default first will be selected 
+    '''
 
