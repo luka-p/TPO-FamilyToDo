@@ -3,7 +3,6 @@
 import django.core.validators
 from django.db import migrations, models
 import django.db.models.deletion
-import familytodo.enums
 
 
 class Migration(migrations.Migration):
@@ -42,7 +41,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('task_name', models.CharField(max_length=30, verbose_name='Task')),
-                ('task_importance', models.CharField(choices=[(familytodo.enums.Importance('High'), 'High'), (familytodo.enums.Importance('Medium'), 'Medium'), (familytodo.enums.Importance('Low'), 'Low')], max_length=3, verbose_name='Importance')),
+                ('task_importance', models.CharField(choices=[('HIGH', 'High'), ('MEDIUM', 'Medium'), ('LOW', 'Low')], max_length=3, verbose_name='Importance')),
                 ('task_reward', models.CharField(blank=True, max_length=30, null=True, verbose_name='Reward')),
                 ('task_due', models.IntegerField(default=0, validators=[django.core.validators.MinValueValidator(0)], verbose_name='Due days')),
                 ('task_child', models.OneToOneField(null=True, on_delete=django.db.models.deletion.CASCADE, to='familytodo.Child', verbose_name='Task belongs to child')),

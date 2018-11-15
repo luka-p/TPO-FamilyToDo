@@ -5,7 +5,7 @@ from .models import Family, Parent, Child, Task
 @admin.register(Family)
 class FamilyAdmin(admin.ModelAdmin):
     ''' columns to display on admin page '''
-    list_display=['family_name', 'password', 'easy_password']
+    list_display=['family_name', 'family_username', 'password', 'easy_password']
 
 ''' Parent model register '''
 @admin.register(Parent)

@@ -4,7 +4,11 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 ''' Family model '''
 class Family(models.Model):
+    ''' family name is surname '''
     family_name = models.CharField('Family name', max_length=30)
+    ''' user name of this family used for unique family registration and login '''
+    family_username = models.CharField('Family username', max_length=30, unique=True, null=True)
+    ''' family password for parent login into control panel '''
     password = models.CharField('Password', max_length=30)
     ''' easy password is 4 digit number for kids to remember faster '''
     easy_password = models.IntegerField('Easy Password', validators=[MinValueValidator(0000),MaxValueValidator(9999)], null=True)
@@ -15,6 +19,7 @@ class Family(models.Model):
 
 ''' Parent model '''
 class Parent(models.Model):
+    ''' parent name each family can have two parents '''
     parent_name = models.CharField('Parent name', max_length=30)
     ''' Family can have two parents but parent can have only one family, many-to-one '''
     parent_family = models.ForeignKey(Family, on_delete=models.CASCADE, verbose_name='Parent family', null=True)
@@ -25,6 +30,7 @@ class Parent(models.Model):
 
 ''' Child model '''
 class Child(models.Model):
+    ''' child name simple as that '''
     child_name = models.CharField('Children name', max_length=30)
     ''' Family can have many children but child can have only one family, many-to-one '''
     child_family = models.ForeignKey(Family, on_delete=models.CASCADE, verbose_name='Family of child')
