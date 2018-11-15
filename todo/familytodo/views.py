@@ -30,12 +30,18 @@ def register_family(request):
         if form.is_valid():
             ''' store data into a dict and create new family to save '''
             f = form.cleaned_data
-            family = Family(family_name=f['family_name'],
-                            family_username=f['family_username'],
-                            password=f['family_password'],
-                            easy_password=f['family_easy_password'])
-            if family is not None:
-                family.save()
+            ''' try to create and save family '''
+            try: 
+                family = Family(family_name=f['family_name'],
+                                family_username=f['family_username'],
+                                password=f['family_password'],
+                                easy_password=f['family_easy_password'])
+                if family is not None:
+                    family.save()
+            ''' catch unique error '''
+            except IntegrityError as ie:
+                form = FamilyRegistrationForm()
+                return render(request, 'family_register.html', {'form': form, 'error': ie.message})
             ''' construct and save father and mother '''
             father = Parent(parent_name=f['father_name'],
                    parent_family=family)
@@ -81,10 +87,10 @@ def login_parent(request):
                     request.session['parent_name'] = parent_name
                     ''' redirect to control panel eg. task adding page '''
                     return redirect('task-add')
-            except:
+            except Exception as e:
                 ''' handle exception with error msg '''
-                raise
-            return HttpResponseRedirect('')
+                form = FamilyLoginForm()
+                return render(request, 'parent_login.html', {'form': form, 'error': e.message})
         ''' GET '''
     else:
         ''' creation of an empty form '''
