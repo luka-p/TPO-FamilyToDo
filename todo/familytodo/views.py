@@ -155,4 +155,4 @@ def display_task(request):
 def logout(request):
     for key in list(request.session.keys()):
         del request.session[key]
-    return render(request, 'index.html')
+    return redirect('index') 
