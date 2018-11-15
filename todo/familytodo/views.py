@@ -3,26 +3,32 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.db.models import Q
 
-
+''' froms import from forms.py '''
 from .forms import (FamilyRegistrationForm,
                     FamilyLoginForm,
                     ChildLoginForm,
                     ChildAddForm,
                     TaskAddForm)
 
+''' models import from models.py '''
 from .models import (Family,
                      Parent,
                      Child,
                      Task)
 
+''' index view that just renders index.html nothing special '''
 def index(request):
     return render(request, 'index.html')
 
+''' register family view, display form and save inputed data into database '''
 @require_http_methods(["GET", "POST"])
 def register_family(request):
+    ''' POST '''
     if request.method == 'POST':
+        ''' fill the form with data and test if the form inputs are valid '''
         form = FamilyRegistrationForm(request.POST)
         if form.is_valid():
+            ''' store data into a dict and create new family to save '''
             f = form.cleaned_data
             family = Family(family_name=f['family_name'],
                             family_username=f['family_username'],
@@ -30,45 +36,61 @@ def register_family(request):
                             easy_password=f['family_easy_password'])
             if family is not None:
                 family.save()
+            ''' construct and save father and mother '''
             father = Parent(parent_name=f['father_name'],
                    parent_family=family)
             if father is not None:
                 father.save()
             mother = Parent(parent_name=f['mother_name'],
                    parent_family=family)
-            if father is not None:
-                father.save()
             if mother is not None:
                 mother.save()
+            ''' redirect back to the index page '''
             return redirect('index')
+        ''' GET '''
     else:
+        ''' create from and send it to the family_register family page '''
         form = FamilyRegistrationForm()
 
+    ''' final return, renders html page with registration form '''
     return render(request, 'family_register.html', {'form': form})
 
+''' parent login view for authentication of parent into control panel '''
 @require_http_methods(["GET", "POST"])
 def login_parent(request):
+    ''' POST '''
     if request.method == 'POST':
+        ''' fill the form and test if it is valid '''
         form = FamilyLoginForm(request.POST)
         if form.is_valid():
+            ''' store data from form into dict '''
             f = form.cleaned_data
             try:
+                ''' get family username and family parents '''
                 family = Family.objects.get(family_username=f['family_username'])
                 family_parents = [p.parent_name for p in Parent.objects.filter(parent_family=family)]
+                ''' authentication by username and parent '''
                 if family.password == f['family_password'] and f['family_parent'] in family_parents:
+                    ''' extract important information from form '''
                     family_name = family.family_name 
                     family_username = f['family_username']
                     parent_name = f['family_parent']
+                    ''' store authentication info into session data so we can pass values to another view '''
                     request.session['family_name'] = family_name
                     request.session['family_username'] = family_username
                     request.session['parent_name'] = parent_name
+                    ''' redirect to control panel eg. task adding page '''
                     return redirect('task-add')
             except:
+                ''' handle exception with error msg '''
                 raise
             return HttpResponseRedirect('')
+        ''' GET '''
     else:
+        ''' creation of an empty form '''
         form = FamilyLoginForm()
 
+    ''' render form with parent login html '''
     return render(request, 'parent_login.html', {'form': form})
 
 @require_http_methods(["GET", "POST"])
