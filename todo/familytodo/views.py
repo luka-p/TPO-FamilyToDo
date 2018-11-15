@@ -81,9 +81,8 @@ def add_task(request):
         if taskform.is_valid():
             f = taskform.cleaned_data
             qf = Q(family_username=family_username)
-            qk = Q(child_name=f['task_child'])
             family = Family.objects.get(qf)
-            child = Child.objects.get(qf and qk)
+            child = Child.objects.get(child_family=family)
             task = Task(task_name=f['task_name'], task_family=family, task_importance=f['task_importance'],
                         task_reward=f['task_reward'], task_due=f['task_due'], task_child=child,
                         task_complete=False)
@@ -152,3 +151,8 @@ def display_task(request):
     existing_tasks = [t for t in Task.objects.filter(task_family=family)]
     return render(request, 'task_display.html', {'family': family_name, 'tasks': existing_tasks})
 
+@require_http_methods(["GET"])
+def logout(request):
+    for key in list(request.session.keys()):
+        del request.session[key]
+    return render(request, 'index.html')

@@ -2,3 +2,4 @@
 {% for task in tasks %}
 <p>{{ task.task_name }}</p>
 {% endfor %}
+<a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
