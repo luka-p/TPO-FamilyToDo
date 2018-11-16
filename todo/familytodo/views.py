@@ -38,7 +38,7 @@ def register_family(request):
                                 easy_password=f['family_easy_password'])
                 if family is not None:
                     family.save()
-            ''' catch unique error '''
+                ''' catch unique error '''
             except IntegrityError as ie:
                 form = FamilyRegistrationForm()
                 return render(request, 'family_register.html', {'form': form, 'error': ie.message})
@@ -101,51 +101,99 @@ def login_parent(request):
 
 @require_http_methods(["GET", "POST"])
 def add_task(request):
+    ''' POST '''
     if request.method == 'POST':
+        ''' fill data from html into forms '''
         taskform = TaskAddForm(request.POST)
         childform = ChildAddForm(request.POST)
+        ''' from session data get user name and family name '''
         family_username = request.session.get('family_username')
         family_name = request.session.get('family_name')
-        if taskform.is_valid():
-            f = taskform.cleaned_data
-            qf = Q(family_username=family_username)
+        ''' construct empty forms '''
+        child_form = ChildAddForm()
+        task_form = TaskAddForm()
+        ''' query that finds the specific family by its username '''
+        qf = Q(family_username=family_username)
+        ''' get family used in both forms, taks add and child add '''
+        try:
             family = Family.objects.get(qf)
-            child = Child.objects.get(child_family=family)
-            task = Task(task_name=f['task_name'], task_family=family, task_importance=f['task_importance'],
-                        task_reward=f['task_reward'], task_due=f['task_due'], task_child=child,
-                        task_complete=False)
-            if task is not None:
-                task.save()
+        except Exception as e:
+            return render(request, 'task_add.html',
+                    {'task_form': task_form, 'child_form': child_form, 
+                     'family': family_name, 'parent': parent_name,
+                     'tasks': existing_tasks, 'error': e.message})
+        ''' extract existing task for above family '''
+        existing_tasks = [t for t in Task.objects.filter(task_family=family)]
+        ''' first check if child can be added  to the family and then if we can add task '''
+        ''' if children adding form is valid save that child into loged in family '''
         if childform.is_valid():
             f = childform.cleaned_data
-            qf = Q(family_username=family_username)
-            family = Family.objects.get(qf)
+            ''' if no children hasnt been added to the family display error '''
+            if f['child_name'] == '-------': 
+                return render(request, 'task_add.html',
+                        {'task_form': task_form, 'child_form': child_form, 
+                         'family': family_name, 'parent': parent_name,
+                         'tasks': existing_tasks, 'error': 'Add atleast one child.'})
             child = Child(child_name=f['child_name'], child_family=family)
             if child is not None:
                 child.save()
+        ''' if form is valid then save task '''
+        if taskform.is_valid():
+            f = taskform.cleaned_data
+            ''' try to get a child and add task to that child, excep display error on the page '''
+            try:
+                child = Child.objects.get(child_family=family)
+                ''' construct task and save it if task can be saved '''
+                task = Task(task_name=f['task_name'], task_family=family, task_importance=f['task_importance'],
+                            task_reward=f['task_reward'], task_due=f['task_due'], task_child=child,
+                            task_complete=False)
+                if task is not None:
+                    task.save()
+            except Exception as e:
+                ''' handle exception with error msg '''
+                return render(request, 'task_add.html',
+                        {'task_form': task_form, 'child_form': child_form, 
+                         'family': family_name, 'parent': parent_name,
+                         'tasks': existing_tasks, 'error': e.message})
+        ''' if all good then save username and family name/surname into sesstion data '''
         request.session['family_username'] = family_username
         request.session['family_name'] = family_name
+        ''' in the end redirect back to itself with get method '''
         return redirect('task-add') 
+        ''' GET '''
     else:
+        ''' construct empty forms that will be render and modified '''
+        child_form = ChildAddForm()
+        task_form = TaskAddForm()
+        ''' retrive family name, username and parent name from sesstion data '''
         family_name = request.session.get('family_name')
         family_username = request.session.get('family_username')
         parent_name = request.session.get('parent_name')
-        family = Family.objects.get(family_username=family_username)
+        ''' from db get family, kids from this family, existing tasks and construct child and taks form '''
+        try:
+            family = Family.objects.get(family_username=family_username)
+        except Exception as e:
+            ''' if getting the family from db by username failed display error on the page '''
+            return render(request, 'task_add.html',
+                    {'task_form': task_form, 'child_form': child_form, 
+                     'family': family_name, 'parent': parent_name,
+                     'tasks': existing_tasks, 'error': e.message})
         family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)] 
         existing_tasks = [t for t in Task.objects.filter(task_family=family)]
-        child_form = ChildAddForm()
-        task_form = TaskAddForm()
+        ''' if family has no children added yet display ------ else fill choices with family children '''
         if len(family_kids) != 0:
             task_form.fields['task_child'].choices = family_kids
             task_form.fields['task_child'].initial = family_kids[0] 
         else:
             task_form.fields['task_child'].choices = [('-------','-------')]
             task_form.fields['task_child'].initial =  ('-------','-------')
+        ''' return and render html template with all data from above '''
         return render(request, 'task_add.html',
                 {'task_form': task_form, 'child_form': child_form, 
                  'family': family_name, 'parent': parent_name,
                  'tasks': existing_tasks})
 
+    ''' error page if view failed '''
     return render(request, 'error.html')
 
 @require_http_methods(["GET", "POST"])
