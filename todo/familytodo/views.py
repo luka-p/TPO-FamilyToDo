@@ -162,9 +162,10 @@ def login_child(request):
                     request.session['family_username'] = family_username
                     request.session['family_name'] = family_name
                     return redirect('task-display')
-            except:
-                raise
-            return HttpResponseRedirect('')
+            except Exception as e:
+                ''' handle exception with error msg '''
+                form = ChildLoginForm()
+                return render(request, 'child_login.html', {'form': form, 'error': e.message})
     else:
         form = ChildLoginForm()
 
