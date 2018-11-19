@@ -5,7 +5,8 @@ from .views import (index,
                     login_child,
                     logout,
                     add_task,
-                    display_task)
+                    display_task,
+                    complete_task)
 
 urlpatterns = [
     path('', index, name='index'),
@@ -15,4 +16,5 @@ urlpatterns = [
     path('logout', logout, name='logout'),
     path('task-add', add_task, name='task-add'),
     path('task-display', display_task, name='task-display'),
+    path('complete-task/<task_id>', complete_task, name='complete-task'),
 ]
