@@ -229,12 +229,18 @@ def display_task(request):
     existing_tasks = [t for t in Task.objects.filter(task_family=family)]
     return render(request, 'task_display.html', {'family': family_name, 'tasks': existing_tasks})
 
+@require_http_methods(["GET"])
 def complete_task(request, task_id):
     task = Task.objects.get(pk=task_id)
     if task is not None:
         task.task_complete = True
         task.save()
     return redirect('task-display')
+
+@require_http_methods(["GET"])
+def delete_complete(request):
+    Task.objects.filter(task_complete__exact=True).delete()
+    return redirect('task-add')
 
 @require_http_methods(["GET"])
 def logout(request):
