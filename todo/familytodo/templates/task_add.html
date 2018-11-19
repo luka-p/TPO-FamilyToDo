@@ -14,4 +14,6 @@
 {% for task in tasks %}
 <p>{{ task.task_name }}</p>
 {% endfor %}
-<a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
+<a href="{% url 'complete-delete' %}">Delete completed tasks</a>
+<br>
+<a href="{% url 'logout' %}">Logout</a>
