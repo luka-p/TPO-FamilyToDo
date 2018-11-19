@@ -2,6 +2,7 @@ from django.views.decorators.http import require_http_methods
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.db.models import Q
+from django.db import IntegrityError
 
 ''' froms import from forms.py '''
 from .forms import (FamilyRegistrationForm,
@@ -41,7 +42,7 @@ def register_family(request):
                 ''' catch unique error '''
             except IntegrityError as ie:
                 form = FamilyRegistrationForm()
-                return render(request, 'family_register.html', {'form': form, 'error': ie.message})
+                return render(request, 'family_register.html', {'form': form, 'error': 'Username already exists'})
             ''' construct and save father and mother '''
             father = Parent(parent_name=f['father_name'],
                    parent_family=family)
@@ -90,7 +91,7 @@ def login_parent(request):
             except Exception as e:
                 ''' handle exception with error msg '''
                 form = FamilyLoginForm()
-                return render(request, 'parent_login.html', {'form': form, 'error': e.message})
+                return render(request, 'parent_login.html', {'form': form, 'error': 'Login error, check your credentials'})
         ''' GET '''
     else:
         ''' creation of an empty form '''
@@ -121,7 +122,7 @@ def add_task(request):
             return render(request, 'task_add.html',
                     {'task_form': task_form, 'child_form': child_form, 
                      'family': family_name, 'parent': parent_name,
-                     'tasks': existing_tasks, 'error': e.message})
+                     'tasks': existing_tasks, 'error': str(e)})
         ''' extract existing task for above family '''
         existing_tasks = [t for t in Task.objects.filter(task_family=family)]
         ''' first check if child can be added  to the family and then if we can add task '''
@@ -154,7 +155,7 @@ def add_task(request):
                 return render(request, 'task_add.html',
                         {'task_form': task_form, 'child_form': child_form, 
                          'family': family_name, 'parent': parent_name,
-                         'tasks': existing_tasks, 'error': e.message})
+                         'tasks': existing_tasks, 'error': str(e)})
         ''' if all good then save username and family name/surname into sesstion data '''
         request.session['family_username'] = family_username
         request.session['family_name'] = family_name
@@ -177,7 +178,7 @@ def add_task(request):
             return render(request, 'task_add.html',
                     {'task_form': task_form, 'child_form': child_form, 
                      'family': family_name, 'parent': parent_name,
-                     'tasks': existing_tasks, 'error': e.message})
+                     'tasks': existing_tasks, 'error': str(e)})
         family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)] 
         existing_tasks = [t for t in Task.objects.filter(task_family=family)]
         ''' if family has no children added yet display ------ else fill choices with family children '''
@@ -213,7 +214,7 @@ def login_child(request):
             except Exception as e:
                 ''' handle exception with error msg '''
                 form = ChildLoginForm()
-                return render(request, 'child_login.html', {'form': form, 'error': e.message})
+                return render(request, 'child_login.html', {'form': form, 'error': 'Login error, check your credentials'})
     else:
         form = ChildLoginForm()
 
