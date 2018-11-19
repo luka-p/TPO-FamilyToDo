@@ -12,8 +12,9 @@
     <input type="submit" value="Add child">
 </form>
 {% for task in tasks %}
-<p>{{ task.task_name }}</p>
+<a href="{% url 'task-edit' task.id %}">{{ task.task_name }}</a>
 {% endfor %}
+<br>
 <a href="{% url 'complete-delete' %}">Delete completed tasks</a>
 <br>
 <a href="{% url 'logout' %}">Logout</a>
