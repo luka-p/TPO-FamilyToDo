@@ -13,6 +13,7 @@
 </form>
 {% for task in tasks %}
 <a href="{% url 'task-edit' task.id %}">{{ task.task_name }}</a>
+<br>
 {% endfor %}
 <br>
 <a href="{% url 'complete-delete' %}">Delete completed tasks</a>
