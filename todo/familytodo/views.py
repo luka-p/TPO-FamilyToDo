@@ -110,6 +110,7 @@ def add_task(request):
         ''' from session data get user name and family name '''
         family_username = request.session.get('family_username')
         family_name = request.session.get('family_name')
+        parent_name = request.session.get('parent_name')
         ''' construct empty forms '''
         child_form = ChildAddForm()
         task_form = TaskAddForm()
@@ -141,9 +142,9 @@ def add_task(request):
         ''' if form is valid then save task '''
         if taskform.is_valid():
             f = taskform.cleaned_data
-            ''' try to get a child and add task to that child, excep display error on the page '''
+            ''' try to get a child and add task to that child, except display error on the page '''
             try:
-                child = Child.objects.get(child_family=family)
+                child = Child.objects.get(child_family=family, child_name=f['task_child'])
                 ''' construct task and save it if task can be saved '''
                 task = Task(task_name=f['task_name'], task_family=family, task_importance=f['task_importance'],
                             task_reward=f['task_reward'], task_due=f['task_due'], task_child=child,
@@ -241,6 +242,42 @@ def complete_task(request, task_id):
 def delete_complete(request):
     Task.objects.filter(task_complete__exact=True).delete()
     return redirect('task-add')
+
+@require_http_methods(["GET", "POST"])
+def edit_task(request, task_id):
+    task = Task.objects.get(pk=task_id)
+    if request.method == 'POST':
+        taskform = TaskAddForm(request.POST)
+        if taskform.is_valid():
+            f = taskform.cleaned_data
+            family = task.task_family
+            child = Child.objects.get(child_family = family, child_name = f['task_child'])
+            task.task_name = f['task_name']
+            task.task_importance = f['task_importance']
+            task.task_reward = f['task_reward']
+            task.task_due = f['task_due']
+            task.task_child = child
+            if task is not None:
+                task.save()
+            return redirect('task-add')
+    else:
+        child_form = ChildAddForm()
+        family_name = request.session.get('family_name')
+        family_username = request.session.get('family_username')
+        parent_name = request.session.get('parent_name')
+        family = Family.objects.get(family_username=family_username)
+        family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)] 
+        existing_tasks = [t for t in Task.objects.filter(task_family=family) if t != task]
+        task_form = TaskAddForm(initial={'task_name': task.task_name,
+                                         'task_importance':task.task_importance,
+                                         'task_reward': task.task_reward,
+                                         'task_due': task.task_due,
+                                         'task_child': task.task_child})
+        task_form.fields['task_child'].choices = family_kids
+        return render(request, 'task_add.html',
+                {'task_form': task_form, 'child_form': child_form, 
+                 'family': family_name, 'parent': parent_name,
+                 'tasks': existing_tasks})
 
 @require_http_methods(["GET"])
 def logout(request):
