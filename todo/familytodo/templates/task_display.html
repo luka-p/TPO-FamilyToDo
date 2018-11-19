@@ -1,5 +1,6 @@
 <p>{{ family }}</p>
 {% for task in tasks %}
-<p>{{ task.task_name }}</p>
+<a href="{% url 'complete-task' task.id %}">{{ task.task_name }}</a>
 {% endfor %}
+<br>
 <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
