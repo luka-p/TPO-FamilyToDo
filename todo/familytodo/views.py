@@ -200,57 +200,80 @@ def add_task(request):
 
 @require_http_methods(["GET", "POST"])
 def login_child(request):
+    ''' POST '''
     if request.method == 'POST':
+        ''' construct the form and test if it is valid '''
         form = ChildLoginForm(request.POST)
         if form.is_valid():
             f = form.cleaned_data
             try:
+                ''' try to get the family by username and test password '''
                 family = Family.objects.get(family_username=f['family_username'])
                 if family.easy_password == f['family_easy_password']:
-                    family_username = f['family_username'] 
                     family_name = family.family_name
-                    request.session['family_username'] = family_username
+                    request.session['family_username'] = f['family_username']
                     request.session['family_name'] = family_name
                     return redirect('task-display')
+                else:
+                    ''' else if passwords do not match raise an exception '''
+                    raise Exception('Login error, check your credentials')
             except Exception as e:
                 ''' handle exception with error msg '''
                 form = ChildLoginForm()
-                return render(request, 'child_login.html', {'form': form, 'error': 'Login error, check your credentials'})
+                return render(request, 'child_login.html', {'form': form, 'error': str(e)})
+        ''' GET '''
     else:
+        ''' make an empty form '''
         form = ChildLoginForm()
 
+    ''' return and render chhild login html with form '''
     return render(request, 'child_login.html', {'form': form})
 
 @require_http_methods(["GET"])
 def display_task(request):
+    ''' returns family name and existing tasks for loged in famiy '''
+    ''' from session data retrive family name and username '''
     family_name = request.session.get('family_name')
     family_username = request.session.get('family_username')
+    ''' make query to filter family by username'''
     qf = Q(family_username=family_username)
+    # TODO: try
     family = Family.objects.get(qf)
+    ''' one liner array of existing tasks for family '''
     existing_tasks = [t for t in Task.objects.filter(task_family=family)]
+    ''' return and render task display html with array of tasks '''
     return render(request, 'task_display.html', {'family': family_name, 'tasks': existing_tasks})
 
 @require_http_methods(["GET"])
 def complete_task(request, task_id):
+    ''' get selected task by its id, primary key '''
+    # TODO: try
     task = Task.objects.get(pk=task_id)
+    ''' if task was retrived change it to complete and save it '''
     if task is not None:
+        ''' set complete to TRUE '''
         task.task_complete = True
         task.save()
+    ''' redirect back to task display site '''
     return redirect('task-display')
 
 @require_http_methods(["GET"])
 def delete_complete(request):
+    ''' delete all tasks that have task_complete set to TRUE '''
     Task.objects.filter(task_complete__exact=True).delete()
+    ''' redirect back to parent control panel site/task adding site '''
     return redirect('task-add')
 
 @require_http_methods(["GET", "POST"])
 def edit_task(request, task_id):
+    # TODO: try
     task = Task.objects.get(pk=task_id)
     if request.method == 'POST':
         taskform = TaskAddForm(request.POST)
         if taskform.is_valid():
             f = taskform.cleaned_data
             family = task.task_family
+            # TODO: try
             child = Child.objects.get(child_family = family, child_name = f['task_child'])
             task.task_name = f['task_name']
             task.task_importance = f['task_importance']
@@ -265,6 +288,7 @@ def edit_task(request, task_id):
         family_name = request.session.get('family_name')
         family_username = request.session.get('family_username')
         parent_name = request.session.get('parent_name')
+        # TODO: try
         family = Family.objects.get(family_username=family_username)
         family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)] 
         existing_tasks = [t for t in Task.objects.filter(task_family=family) if t != task]
@@ -281,6 +305,7 @@ def edit_task(request, task_id):
 
 @require_http_methods(["GET"])
 def logout(request):
+    ''' delete content of session request data '''
     for key in list(request.session.keys()):
         del request.session[key]
     return redirect('index') 
