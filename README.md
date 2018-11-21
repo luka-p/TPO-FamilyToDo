@@ -4,19 +4,23 @@
 
 #### ToDo
 ##### Faza 1
-- [ ] pisanje projektnega plana
-- [ ] načrt podatkovne baze
-- [ ] odločitev/izbira okolja za razvoj
+- [x] pisanje projektnega plana
+- [x] načrt podatkovne baze
+- [x] odločitev/izbira okolja za razvoj
 ##### Faza 2 
-- [ ] kreiranje podatkovne baze
-- [ ] izdelava avtentikacija in registracije družine
+- [ ] oblikovaje prve strani/index
+- [x] kreiranje podatkovne baze
+- [x] izdelava avtentikacija in registracije družine
+- [ ] stran za registracijo družine
 - [ ] stran za dodajanje starša/staršev
-- [ ] dodajanje otroka k družini
+- [x] dodajanje otroka k družini
+- [ ] oblikovanje vstopne strani za starša 
 - [ ] oblikovanje vstopne strani za otroka
 ##### Faza 3 
-- [ ] pisanje opravila/dodajanje k posameznem otroku
-- [ ] določanje pomembnosti
-- [ ] število dni za dokončanje naloga
-- [ ] dodajanje nagrade ob opravljeni nalogi
-- [ ] urejanje obstoječega opravila
+- [x] pisanje opravila/dodajanje k posameznem otroku
+- [x] določanje pomembnosti
+- [x] število dni za dokončanje naloga
+- [x] dodajanje nagrade ob opravljeni nalogi
+- [x] urejanje obstoječega opravila
+- [ ] oblikovanje nadzorne plošče za starša 
 - [ ] oblikovanje strani za otroka/prikaz opravil
