@@ -1,6 +1,9 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+ACTYPE = (
+    ('Free', 'Free'),
+    ('Paid', 'Paid'))
 
 ''' Family model '''
 class Family(models.Model):
@@ -12,6 +15,8 @@ class Family(models.Model):
     password = models.CharField('Password', max_length=30)
     ''' easy password is 4 digit number for kids to remember faster '''
     easy_password = models.IntegerField('Easy Password', validators=[MinValueValidator(0000),MaxValueValidator(9999)], null=True)
+    ''' account type, free or paid '''
+    ac_type = models.CharField('Account type', max_length=4, choices=ACTYPE)
 
     ''' overwrite of default __str__ method, returns name of family '''
     def __str__(self):

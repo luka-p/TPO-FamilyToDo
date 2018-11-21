@@ -9,7 +9,9 @@ from .forms import (FamilyRegistrationForm,
                     FamilyLoginForm,
                     ChildLoginForm,
                     ChildAddForm,
-                    TaskAddForm)
+                    TaskAddForm,
+                    FreeParentForm,
+                    PaidParentForm)
 
 ''' models import from models.py '''
 from .models import (Family,
@@ -36,24 +38,19 @@ def register_family(request):
                 family = Family(family_name=f['family_name'],
                                 family_username=f['family_username'],
                                 password=f['family_password'],
-                                easy_password=f['family_easy_password'])
+                                easy_password=f['family_easy_password'],
+                                ac_type=f['account_type'])
                 if family is not None:
                     family.save()
                 ''' catch unique error '''
             except IntegrityError as ie:
                 form = FamilyRegistrationForm()
                 return render(request, 'family_register.html', {'form': form, 'error': 'Username already exists'})
-            ''' construct and save father and mother '''
-            father = Parent(parent_name=f['father_name'],
-                   parent_family=family)
-            if father is not None:
-                father.save()
-            mother = Parent(parent_name=f['mother_name'],
-                   parent_family=family)
-            if mother is not None:
-                mother.save()
-            ''' redirect back to the index page '''
-            return redirect('index')
+            ''' save family username and account type into session data '''
+            request.session['family_username'] = f['family_username']
+            request.session['account_type'] = f['account_type']
+            ''' redirect to the parent register page '''
+            return redirect('parent-register')
         ''' GET '''
     else:
         ''' create from and send it to the family_register family page '''
@@ -61,6 +58,54 @@ def register_family(request):
 
     ''' final return, renders html page with registration form '''
     return render(request, 'family_register.html', {'form': form})
+
+@require_http_methods(["GET", "POST"])
+def register_parent(request):
+    ''' get family username and account type from session data '''
+    family_username = request.session.get('family_username')
+    account_type = request.session.get('account_type')
+    #TODO: try
+    family = Family.objects.get(family_username=family_username)
+    ''' POST '''
+    if request.method == 'POST':
+        ''' retrive data from post method and fill the form '''
+        if account_type == 'Free':
+            form = FreeParentForm(request.POST)
+        elif account_type == 'Paid':
+            form = PaidParentForm(request.POST)
+        else:
+            return None
+        ''' test if form is valid '''
+        if form.is_valid():
+            ''' save data from form into model '''
+            f = form.cleaned_data
+            if account_type == 'Free':
+                ''' construct singel parent '''
+                parent = Parent(parent_name=f['parent_name'], parent_family=family)
+                if parent is not None:
+                    parent.save()
+            elif account_type == 'Paid':
+                ''' construct and save father and mother '''
+                father = Parent(parent_name=f['father_name'], parent_family=family)
+                if father is not None:
+                    father.save()
+                mother = Parent(parent_name=f['mother_name'], parent_family=family)
+                if mother is not None:
+                    mother.save()
+            else:
+                return None
+        return redirect('index')
+        ''' GET '''
+    else:
+        ''' check what type the account is and render the right form '''
+        if account_type == 'Free':
+            form = FreeParentForm()
+        elif account_type == 'Paid':
+            form = PaidParentForm()
+        else:
+            form = None
+        
+    return render(request, 'parent_register.html', {'form': form})
 
 ''' parent login view for authentication of parent into control panel '''
 @require_http_methods(["GET", "POST"])

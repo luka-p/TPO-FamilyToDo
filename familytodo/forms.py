@@ -1,6 +1,7 @@
 from django import forms
 from .models import (IMPORTANCE,
-                     CHILDREN)
+                     CHILDREN,
+                     ACTYPE)
 
 ''' error messages dict '''
 err_msg = {
@@ -13,12 +14,19 @@ err_msg = {
 ''' Family registration form '''
 class FamilyRegistrationForm(forms.Form):
     ''' Family name, usename and passwords '''
-    family_name = forms.CharField(label="Family name", max_length=30, strip=True)
+    family_name = forms.CharField(label="Family name/surename", max_length=30, strip=True)
     family_username = forms.CharField(label="Family username", max_length=30, strip=True)
     family_password = forms.CharField(label="Full password", max_length=30, widget=forms.PasswordInput)
     family_easy_password = forms.IntegerField(label="Easy password", min_value=0000, max_value=9999, widget=forms.PasswordInput, error_messages=err_msg)
+    account_type = forms.ChoiceField(label="Account type", choices=ACTYPE, widget=forms.RadioSelect)
     
-    ''' Family parents '''
+
+class FreeParentForm(forms.Form):
+    ''' Free users can add only one parent '''
+    parent_name = forms.CharField(label="Parent name", max_length=30, strip=True)
+
+class PaidParentForm(forms.Form):
+    ''' Paid users can add two parents '''
     father_name = forms.CharField(label="Father name", max_length=30, strip=True)
     mother_name = forms.CharField(label="Mother name", max_length=30, strip=True)
 

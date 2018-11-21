@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (index,
                     register_family,
+                    register_parent,
                     login_parent,
                     login_child,
                     logout,
@@ -13,6 +14,7 @@ from .views import (index,
 urlpatterns = [
     path('', index, name='index'),
     path('family-register', register_family, name='family-register'),
+    path('parent-register', register_parent, name='parent-register'),
     path('parent-login', login_parent, name='parent-login'),
     path('child-login', login_child, name='child-login'),
     path('logout', logout, name='logout'),
