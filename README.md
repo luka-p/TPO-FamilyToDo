@@ -15,7 +15,3 @@
 * 'cd familytodo'
 * 'python3 manage.py runserver'
 * stran je na voljo na naslovu: 127.0.0.1:8000
-
-#### Login
-* stars: username -> druzina1, passwd -> test
-* otrok: druzina1
