@@ -64,8 +64,10 @@ def register_parent(request):
     ''' get family username and account type from session data '''
     family_username = request.session.get('family_username')
     account_type = request.session.get('account_type')
-    #TODO: try
-    family = Family.objects.get(family_username=family_username)
+    try:
+        family = Family.objects.get(family_username=family_username)
+    except Exception as e:
+        return render(request, 'parent_register.html', {'form': None, 'error': str(e)})
     ''' POST '''
     if request.method == 'POST':
         ''' retrive data from post method and fill the form '''
@@ -173,6 +175,8 @@ def add_task(request):
         existing_tasks = [t for t in Task.objects.filter(task_family=family)]
         ''' first check if child can be added  to the family and then if we can add task '''
         ''' if children adding form is valid save that child into loged in family '''
+        print(childform.is_valid())
+        print(childform.errors)
         if childform.is_valid():
             f = childform.cleaned_data
             ''' if no children hasnt been added to the family display error '''
@@ -185,6 +189,8 @@ def add_task(request):
             if child is not None:
                 child.save()
         ''' if form is valid then save task '''
+        print(taskform.is_valid())
+        print(taskform.errors)
         if taskform.is_valid():
             f = taskform.cleaned_data
             ''' try to get a child and add task to that child, except display error on the page '''
@@ -282,8 +288,10 @@ def display_task(request):
     family_username = request.session.get('family_username')
     ''' make query to filter family by username'''
     qf = Q(family_username=family_username)
-    # TODO: try
-    family = Family.objects.get(qf)
+    try:
+        family = Family.objects.get(qf)
+    except Exception as e:
+        return render(request, 'task_display.html', {'family': None, 'tasks': None, 'error': str(e)})
     ''' one liner array of existing tasks for family '''
     existing_tasks = [t for t in Task.objects.filter(task_family=family)]
     ''' return and render task display html with array of tasks '''
@@ -292,8 +300,10 @@ def display_task(request):
 @require_http_methods(["GET"])
 def complete_task(request, task_id):
     ''' get selected task by its id, primary key '''
-    # TODO: try
-    task = Task.objects.get(pk=task_id)
+    try:
+        task = Task.objects.get(pk=task_id)
+    except Exception as e:
+        return render(request, 'task_display.html', {'family': None, 'tasks': None, 'error': str(e)})
     ''' if task was retrived change it to complete and save it '''
     if task is not None:
         ''' set complete to TRUE '''
@@ -312,8 +322,10 @@ def delete_complete(request):
 @require_http_methods(["GET", "POST"])
 def edit_task(request, task_id):
     ''' from db get task by its id '''
-    # TODO: try
-    task = Task.objects.get(pk=task_id)
+    try:
+        task = Task.objects.get(pk=task_id)
+    except Exception as e:
+        return redirect('task-add')
     ''' POST '''
     if request.method == 'POST':
         ''' if form is valid, replace data with new data from form '''
@@ -321,8 +333,10 @@ def edit_task(request, task_id):
         if taskform.is_valid():
             f = taskform.cleaned_data
             family = task.task_family
-            # TODO: try
-            child = Child.objects.get(child_family = family, child_name = f['task_child'])
+            try:
+                child = Child.objects.get(child_family = family, child_name = f['task_child'])
+            except Exception as e:
+                return redirect('task-add')
             ''' replaceing '''
             task.task_name = f['task_name']
             task.task_importance = f['task_importance']
@@ -341,8 +355,10 @@ def edit_task(request, task_id):
         family_name = request.session.get('family_name')
         family_username = request.session.get('family_username')
         parent_name = request.session.get('parent_name')
-        # TODO: try
-        family = Family.objects.get(family_username=family_username)
+        try:
+            family = Family.objects.get(family_username=family_username)
+        except Exception as e:
+            return redirect('task-add')
         family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)] 
         existing_tasks = [t for t in Task.objects.filter(task_family=family) if t != task]
         ''' existing form on the site fill with data from db and display it on control panel '''
