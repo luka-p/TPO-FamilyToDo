@@ -2,7 +2,6 @@
 ## Seminarska naloga pri predmetu TPO
 ### Aljaž Glavač, Andraž Raspor, Luka Perovič, Dejan Božič
 
-#### ToDo
 ##### Faza 1
 - [x] pisanje projektnega plana
 - [x] načrt podatkovne baze
