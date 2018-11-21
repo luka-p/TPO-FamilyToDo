@@ -135,6 +135,10 @@ def login_parent(request):
                     request.session['parent_name'] = parent_name
                     ''' redirect to control panel eg. task adding page '''
                     return redirect('task-add')
+                else:
+                    ''' else if login credentials weren't correct render new form with error '''
+                    ''' or just raise and then catch it '''
+                    raise
             except Exception as e:
                 ''' handle exception with error msg '''
                 form = FamilyLoginForm()
