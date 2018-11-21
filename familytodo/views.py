@@ -311,24 +311,32 @@ def delete_complete(request):
 
 @require_http_methods(["GET", "POST"])
 def edit_task(request, task_id):
+    ''' from db get task by its id '''
     # TODO: try
     task = Task.objects.get(pk=task_id)
+    ''' POST '''
     if request.method == 'POST':
+        ''' if form is valid, replace data with new data from form '''
         taskform = TaskAddForm(request.POST)
         if taskform.is_valid():
             f = taskform.cleaned_data
             family = task.task_family
             # TODO: try
             child = Child.objects.get(child_family = family, child_name = f['task_child'])
+            ''' replaceing '''
             task.task_name = f['task_name']
             task.task_importance = f['task_importance']
             task.task_reward = f['task_reward']
             task.task_due = f['task_due']
             task.task_child = child
+            ''' saving '''
             if task is not None:
                 task.save()
+            ''' redirect back to control panel eg task-add page '''
             return redirect('task-add')
+            ''' GET '''
     else:
+        ''' fetch all data needed '''
         child_form = ChildAddForm()
         family_name = request.session.get('family_name')
         family_username = request.session.get('family_username')
@@ -337,12 +345,14 @@ def edit_task(request, task_id):
         family = Family.objects.get(family_username=family_username)
         family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)] 
         existing_tasks = [t for t in Task.objects.filter(task_family=family) if t != task]
+        ''' existing form on the site fill with data from db and display it on control panel '''
         task_form = TaskAddForm(initial={'task_name': task.task_name,
                                          'task_importance':task.task_importance,
                                          'task_reward': task.task_reward,
                                          'task_due': task.task_due,
                                          'task_child': task.task_child})
         task_form.fields['task_child'].choices = family_kids
+        ''' return render html with "new" form, form with existing data that was already in db '''
         return render(request, 'task_add.html',
                 {'task_form': task_form, 'child_form': child_form, 
                  'family': family_name, 'parent': parent_name,
