@@ -175,8 +175,6 @@ def add_task(request):
         existing_tasks = [t for t in Task.objects.filter(task_family=family)]
         ''' first check if child can be added  to the family and then if we can add task '''
         ''' if children adding form is valid save that child into loged in family '''
-        print(childform.is_valid())
-        print(childform.errors)
         if childform.is_valid():
             f = childform.cleaned_data
             ''' if no children hasnt been added to the family display error '''
@@ -189,8 +187,6 @@ def add_task(request):
             if child is not None:
                 child.save()
         ''' if form is valid then save task '''
-        print(taskform.is_valid())
-        print(taskform.errors)
         if taskform.is_valid():
             f = taskform.cleaned_data
             ''' try to get a child and add task to that child, except display error on the page '''
