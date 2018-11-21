@@ -183,6 +183,14 @@ def add_task(request):
                         {'task_form': task_form, 'child_form': child_form, 
                          'family': family_name, 'parent': parent_name,
                          'tasks': existing_tasks, 'error': 'Add atleast one child.'})
+            ''' part where we check if user has free account and if he can add any more children '''
+            children = len(Child.objects.filter(child_family=family))
+            ac_type = family.ac_type
+            if ac_type == 'Free' and children > 2:
+                return render(request, 'task_add.html',
+                        {'task_form': task_form, 'child_form': child_form, 
+                         'family': family_name, 'parent': parent_name,
+                         'tasks': existing_tasks, 'error': 'Free version allows only 2(two) children/family.'})
             child = Child(child_name=f['child_name'], child_family=family)
             if child is not None:
                 child.save()
