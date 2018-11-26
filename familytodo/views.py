@@ -190,7 +190,7 @@ def add_task(request):
             ''' part where we check if user has free account and if he can add any more children '''
             children = len(Child.objects.filter(child_family=family))
             ac_type = family.ac_type
-            if ac_type == 'Free' and children > 2:
+            if ac_type == 'Free' and children > 1:
                 return render(request, 'task_add.html',
                         {'task_form': task_form, 'child_form': child_form, 
                          'family': family_name, 'parent': parent_name,
