@@ -198,15 +198,17 @@ def add_task(request):
             child = Child(child_name=f['child_name'], child_family=family)
             if child is not None:
                 child.save()
+                return redirect('task-add') 
+                ''' when new child in save into DB return POST request of this function '''
         ''' if form is valid then save task '''
-        if taskform.is_valid():
-            f = taskform.cleaned_data
+        if taskform.is_bound:
+            f = taskform
             ''' try to get a child and add task to that child, except display error on the page '''
             try:
-                child = Child.objects.get(child_family=family, child_name=f['task_child'])
+                child = Child.objects.get(child_family=family, child_name=f['task_child'].data)
                 ''' construct task and save it if task can be saved '''
-                task = Task(task_name=f['task_name'], task_family=family, task_importance=f['task_importance'],
-                            task_reward=f['task_reward'], task_due=f['task_due'], task_child=child,
+                task = Task(task_name=f['task_name'].data, task_family=family, task_importance=f['task_importance'].data,
+                            task_reward=f['task_reward'].data, task_due=f['task_due'].data, task_child=child,
                             task_complete=False)
                 if task is not None:
                     task.save()
