@@ -1,21 +1,25 @@
-<p>{{ error }}</p>
-<p>{{ family }}</p>
-<p>{{ parent }}</p>
-<form action="" method="POST">
+{% extends 'base.html' %}
+
+{% block content %}
+  <p>{{ error }}</p>
+  <p>{{ family }}</p>
+  <p>{{ parent }}</p>
+  <form action="" method="POST">
     {% csrf_token %}
     {{ task_form.as_p }}
     <input type="submit" value="Add/Save task">
-</form>
-<form action="" method="POST">
+  </form>
+  <form action="" method="POST">
     {% csrf_token %}
     {{ child_form.as_p }}
     <input type="submit" value="Add child">
-</form>
-{% for task in tasks %}
-<a href="{% url 'task-edit' task.id %}">{{ task.task_name }}</a>
-<br>
-{% endfor %}
-<br>
-<a href="{% url 'complete-delete' %}">Delete completed tasks</a>
-<br>
-<a href="{% url 'logout' %}">Logout</a>
+  </form>
+  {% for task in tasks %}
+  <a href="{% url 'task-edit' task.id %}">{{ task.task_name }}</a>
+  <br>
+  {% endfor %}
+  <br>
+  <a href="{% url 'complete-delete' %}">Delete completed tasks</a>
+  <br>
+  <a href="{% url 'logout' %}">Logout</a>
+{% endblock %}

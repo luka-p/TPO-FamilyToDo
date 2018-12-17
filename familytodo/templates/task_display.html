@@ -1,7 +1,11 @@
-<p>{{ family }}</p>
-{% for task in tasks %}
-<a href="{% url 'complete-task' task.id %}">{{ task.task_name }}</a>
-<br>
-{% endfor %}
-<br>
-<a href="{% url 'logout' %}">Logout</a>
+{% extends 'base.html' %}
+
+{% block content %}
+  <p>{{ family }}</p>
+  {% for task in tasks %}
+  <a href="{% url 'complete-task' task.id %}">{{ task.task_name }}</a>
+  <br>
+  {% endfor %}
+  <br>
+  <a href="{% url 'logout' %}">Logout</a>
+{% endblock %}

@@ -1,3 +1,7 @@
-<a class="btn btn-primary" href="{% url 'family-register' %}">Family Register</a>
-<a class="btn btn-primary" href="{% url 'parent-login' %}">Parent Login</a>
-<a class="btn btn-primary" href="{% url 'child-login' %}">Children Login</a>
+{% extends 'base.html' %}
+
+{% block content %}
+  <a class="btn btn-primary" href="{% url 'family-register' %}">Family Register</a>
+  <a class="btn btn-primary" href="{% url 'parent-login' %}">Parent Login</a>
+  <a class="btn btn-primary" href="{% url 'child-login' %}">Children Login</a>
+{% endblock %}

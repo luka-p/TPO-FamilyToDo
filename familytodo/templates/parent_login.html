@@ -1,7 +1,11 @@
-<p>{{ error }}</p>
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit">
-</form>
-<a href="{% url 'logout' %}">Back</a>
+{% extends 'base.html' %}
+
+{% block content %}
+  <p>{{ error }}</p>
+  <form action="" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Submit">
+  </form>
+  <a href="{% url 'logout' %}">Back</a>
+{% endblock %}
