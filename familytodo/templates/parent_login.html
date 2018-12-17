@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
   <p>{{ error }}</p>
-  <form action="" method="POST">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" value="Submit">
-  </form>
-  <a href="{% url 'logout' %}">Back</a>
+  {% csrf_token %}
+  <div class="container">
+    <div class="row justify-content-md-center">
+      {% crispy form %}
+    </div>
+  </div>
+  <!--  <a href="{% url 'logout' %}" class='btn-secondary'>Back</a> -->
 {% endblock %}

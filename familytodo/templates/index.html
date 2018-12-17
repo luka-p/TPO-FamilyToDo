@@ -1,7 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <a class="btn btn-primary" href="{% url 'family-register' %}">Family Register</a>
-  <a class="btn btn-primary" href="{% url 'parent-login' %}">Parent Login</a>
-  <a class="btn btn-primary" href="{% url 'child-login' %}">Children Login</a>
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="btn-group-vertical">
+      <a class="btn btn-primary" href="{% url 'family-register' %}" role="button">Family Register</a>
+      <a class="btn btn-primary" href="{% url 'parent-login' %}" role="button">Parent Login</a>
+      <a class="btn btn-primary" href="{% url 'child-login' %}" role="button">Children Login</a>
+    </div>
+  </div>
+  <!--
+  <div class="row justify-content-center my-3">
+    <a class="btn btn-primary w-25" href="{% url 'family-register' %}">Family Register</a>
+  </div>
+  <div class="row justify-content-center my-3">
+    <a class="btn btn-primary w-25" href="{% url 'parent-login' %}">Parent Login</a>
+  </div>
+  <div class="row justify-content-center my-3">
+    <a class="btn btn-primary w-25" href="{% url 'child-login' %}">Children Login</a>
+  </div>
+  -->
+</div>
 {% endblock %}

@@ -4,7 +4,7 @@
   <p>{{ error }}</p>
   <form action="" method="POST">
       {% csrf_token %}
-      {{ form.as_p }}
+      {{ form|crispy }}
       <input type="submit" value="Submit">
   </form>
   <a href="{% url 'logout' %}">Back</a>
