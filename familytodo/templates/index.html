@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container-fluid">
-  <div class="row justify-content-md-center">
-    <div class="btn-group-vertical">
-      <a class="btn btn-primary" href="{% url 'family-register' %}" role="button">Family Register</a>
-      <a class="btn btn-primary" href="{% url 'parent-login' %}" role="button">Parent Login</a>
-      <a class="btn btn-primary" href="{% url 'child-login' %}" role="button">Children Login</a>
-    </div>
+<div class="page">
+  <div class="btn-box">
+      <a class="btn btn-primary" href="{% url 'family-register' %}" role="button">Family register</a>
+      <a class="btn btn-primary" href="{% url 'parent-login' %}" role="button">Parent login</a>
+      <a class="btn btn-primary" href="{% url 'child-login' %}" role="button">Children login</a>
   </div>
   <!--
   <div class="row justify-content-center my-3">

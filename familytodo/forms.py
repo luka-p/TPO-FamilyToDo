@@ -1,7 +1,7 @@
 from django import forms
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Field
+from crispy_forms.layout import Submit, Layout, Field, Button
 from crispy_forms.bootstrap import (
     PrependedText, PrependedAppendedText, FormActions)
 
@@ -29,6 +29,9 @@ class FamilyRegistrationForm(forms.Form):
     family_easy_password = forms.IntegerField(label="Easy password", min_value=0000, max_value=9999, widget=forms.PasswordInput, error_messages=err_msg)
     account_type = forms.ChoiceField(label="Account type", choices=ACTYPE, widget=forms.RadioSelect)
 
+    helper = FormHelper()
+    helper.form_method = 'POST'
+    helper.add_input(Submit('register', 'Register', css_class='btn-primary'))
 
 class FreeParentForm(forms.Form):
     ''' Free users can add only one parent '''
@@ -47,16 +50,24 @@ class FamilyLoginForm(forms.Form):
 
     helper = FormHelper()
     helper.form_method = 'POST'
-    helper.add_input(Submit('Login', 'login', css_class='btn-primary'))
+    helper.add_input(Submit('login', 'Login', css_class='btn-primary'))
 
 ''' Child login form '''
 class ChildLoginForm(forms.Form):
     family_username = forms.CharField(label="Family username", max_length=30, strip=True)
     family_easy_password = forms.IntegerField(label="Family password", min_value=0000, max_value=9999, widget=forms.PasswordInput, error_messages=err_msg)
 
+    helper = FormHelper()
+    helper.form_method = 'POST'
+    helper.add_input(Submit('login', 'Login', css_class='btn-primary'))
+
 ''' Child add form '''
 class ChildAddForm(forms.Form):
     child_name = forms.CharField(label="Child name", max_length=30, strip=True)
+
+    helper = FormHelper()
+    helper.form_method = 'POST'
+    helper.add_input(Submit('submit', 'Add child', css_class='btn-primary'))
 
 ''' Task adding form '''
 class TaskAddForm(forms.Form):
@@ -66,3 +77,6 @@ class TaskAddForm(forms.Form):
     task_due = forms.IntegerField(label="Taks due days", min_value=0, error_messages=err_msg)
     task_child = forms.ChoiceField(label="Child", choices=[(c.child_name, c.child_name) for c in Child.objects.all()])
 
+    helper = FormHelper()
+    helper.form_method = 'POST'
+    helper.add_input(Submit('submit', 'Add/Save task', css_class='btn-primary'))

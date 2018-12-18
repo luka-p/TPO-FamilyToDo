@@ -34,7 +34,7 @@ def register_family(request):
             ''' store data into a dict and create new family to save '''
             f = form.cleaned_data
             ''' try to create and save family '''
-            try: 
+            try:
                 family = Family(family_name=f['family_name'],
                                 family_username=f['family_username'],
                                 password=f['family_password'],
@@ -106,7 +106,7 @@ def register_parent(request):
             form = PaidParentForm()
         else:
             form = None
-        
+
     return render(request, 'parent_register.html', {'form': form})
 
 ''' parent login view for authentication of parent into control panel '''
@@ -126,7 +126,7 @@ def login_parent(request):
                 ''' authentication by username and parent '''
                 if family.password == f['family_password'] and f['family_parent'] in family_parents:
                     ''' extract important information from form '''
-                    family_name = family.family_name 
+                    family_name = family.family_name
                     family_username = f['family_username']
                     parent_name = f['family_parent']
                     ''' store authentication info into session data so we can pass values to another view '''
@@ -172,7 +172,7 @@ def add_task(request):
             family = Family.objects.get(qf)
         except Exception as e:
             return render(request, 'task_add.html',
-                    {'task_form': task_form, 'child_form': child_form, 
+                    {'task_form': task_form, 'child_form': child_form,
                      'family': family_name, 'parent': parent_name,
                      'tasks': existing_tasks, 'error': str(e)})
         ''' extract existing task for above family '''
@@ -182,9 +182,9 @@ def add_task(request):
         if childform.is_valid():
             f = childform.cleaned_data
             ''' if no children hasnt been added to the family display error '''
-            if f['child_name'] == '-------': 
+            if f['child_name'] == '-------':
                 return render(request, 'task_add.html',
-                        {'task_form': task_form, 'child_form': child_form, 
+                        {'task_form': task_form, 'child_form': child_form,
                          'family': family_name, 'parent': parent_name,
                          'tasks': existing_tasks, 'error': 'Add atleast one child.'})
             ''' part where we check if user has free account and if he can add any more children '''
@@ -192,13 +192,13 @@ def add_task(request):
             ac_type = family.ac_type
             if ac_type == 'Free' and children > 1:
                 return render(request, 'task_add.html',
-                        {'task_form': task_form, 'child_form': child_form, 
+                        {'task_form': task_form, 'child_form': child_form,
                          'family': family_name, 'parent': parent_name,
                          'tasks': existing_tasks, 'error': 'Free version allows only 2(two) children/family.'})
             child = Child(child_name=f['child_name'], child_family=family)
             if child is not None:
                 child.save()
-                return redirect('task-add') 
+                return redirect('task-add')
                 ''' when new child in save into DB return POST request of this function '''
         ''' if form is valid then save task '''
         if taskform.is_bound:
@@ -215,14 +215,14 @@ def add_task(request):
             except Exception as e:
                 ''' handle exception with error msg '''
                 return render(request, 'task_add.html',
-                        {'task_form': task_form, 'child_form': child_form, 
+                        {'task_form': task_form, 'child_form': child_form,
                          'family': family_name, 'parent': parent_name,
                          'tasks': existing_tasks, 'error': str(e)})
         ''' if all good then save username and family name/surname into sesstion data '''
         request.session['family_username'] = family_username
         request.session['family_name'] = family_name
         ''' in the end redirect back to itself with get method '''
-        return redirect('task-add') 
+        return redirect('task-add')
         ''' GET '''
     else:
         ''' construct empty forms that will be render and modified '''
@@ -238,21 +238,21 @@ def add_task(request):
         except Exception as e:
             ''' if getting the family from db by username failed display error on the page '''
             return render(request, 'task_add.html',
-                    {'task_form': task_form, 'child_form': child_form, 
+                    {'task_form': task_form, 'child_form': child_form,
                      'family': family_name, 'parent': parent_name,
                      'tasks': existing_tasks, 'error': str(e)})
-        family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)] 
+        family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)]
         existing_tasks = [t for t in Task.objects.filter(task_family=family)]
         ''' if family has no children added yet display ------ else fill choices with family children '''
         if len(family_kids) != 0:
             task_form.fields['task_child'].choices = family_kids
-            task_form.fields['task_child'].initial = family_kids[0] 
+            task_form.fields['task_child'].initial = family_kids[0]
         else:
             task_form.fields['task_child'].choices = [('-------','-------')]
             task_form.fields['task_child'].initial =  ('-------','-------')
         ''' return and render html template with all data from above '''
         return render(request, 'task_add.html',
-                {'task_form': task_form, 'child_form': child_form, 
+                {'task_form': task_form, 'child_form': child_form,
                  'family': family_name, 'parent': parent_name,
                  'tasks': existing_tasks})
 
@@ -369,7 +369,7 @@ def edit_task(request, task_id):
             family = Family.objects.get(family_username=family_username)
         except Exception as e:
             return redirect('task-add')
-        family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)] 
+        family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)]
         existing_tasks = [t for t in Task.objects.filter(task_family=family) if t != task]
         ''' existing form on the site fill with data from db and display it on control panel '''
         task_form = TaskAddForm(initial={'task_name': task.task_name,
@@ -380,7 +380,7 @@ def edit_task(request, task_id):
         task_form.fields['task_child'].choices = family_kids
         ''' return render html with "new" form, form with existing data that was already in db '''
         return render(request, 'task_add.html',
-                {'task_form': task_form, 'child_form': child_form, 
+                {'task_form': task_form, 'child_form': child_form,
                  'family': family_name, 'parent': parent_name,
                  'tasks': existing_tasks})
 
@@ -389,4 +389,4 @@ def logout(request):
     ''' delete content of session request data '''
     for key in list(request.session.keys()):
         del request.session[key]
-    return redirect('index') 
+    return redirect('index')

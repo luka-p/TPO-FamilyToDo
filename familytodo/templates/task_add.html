@@ -1,25 +1,42 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'familytodo/style.css' %}">
 
 {% block content %}
-  <p>{{ error }}</p>
-  <p>{{ family }}</p>
-  <p>{{ parent }}</p>
-  <form action="" method="POST">
-    {% csrf_token %}
-    {{ task_form.as_p }}
-    <input type="submit" value="Add/Save task">
-  </form>
-  <form action="" method="POST">
-    {% csrf_token %}
-    {{ child_form.as_p }}
-    <input type="submit" value="Add child">
-  </form>
-  {% for task in tasks %}
-  <a href="{% url 'task-edit' task.id %}">{{ task.task_name }}</a>
-  <br>
-  {% endfor %}
-  <br>
-  <a href="{% url 'complete-delete' %}">Delete completed tasks</a>
-  <br>
-  <a href="{% url 'logout' %}">Logout</a>
+<div class="page">
+  <div class="tabbed-content">
+    <!-- Tab links -->
+    <div class="tab">
+      <button class="tablinks" onclick="openCity(event, 'User')">User</button>
+      <button class="tablinks" onclick="openCity(event, 'Add-task')">Add task</button>
+      <button class="tablinks" onclick="openCity(event, 'Child')">Add children</button>
+      <button class="tablinks" onclick="openCity(event, 'Tasks')">View tasks</button>
+    </div>
+    <div id="User" class="tabcontent">
+      <p>{{ error }}</p>
+      <p>{{ family }}</p>
+      <p>{{ parent }}</p>
+    </div>
+    <div id="Add-task" class="tabcontent">
+        {% csrf_token %}
+        {% crispy task_form %}
+    </div>
+    <div id="Child" class="tabcontent">
+        {% csrf_token %}
+        {% crispy child_form %}
+    </div>
+    <div id="Tasks" class="tabcontent">
+      {% for task in tasks %}
+      <a href="{% url 'task-edit' task.id %}">{{ task.task_name }}</a>
+      <br>
+      {% endfor %}
+      <br>
+      <a class="btn btn-primary" href="{% url 'complete-delete' %}">Delete completed tasks</a>
+      <br>
+      <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
+    </div>
+  </div>
+</div>
 {% endblock %}
