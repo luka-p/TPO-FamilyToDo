@@ -160,6 +160,7 @@ def add_task(request):
         ''' fill data from html into forms '''
         taskform = TaskAddForm(request.POST)
         childform = ChildAddForm(request.POST)
+        scheduleform = ScheduleAddForm(request.POST)
         ''' from session data get user name and family name '''
         family_username = request.session.get('family_username')
         family_name = request.session.get('family_name')
@@ -167,6 +168,7 @@ def add_task(request):
         ''' construct empty forms '''
         child_form = ChildAddForm()
         task_form = TaskAddForm()
+        schedule_form = ScheduleAddForm()
         ''' query that finds the specific family by its username '''
         qf = Q(family_username=family_username)
         ''' get family used in both forms, taks add and child add '''
@@ -174,7 +176,7 @@ def add_task(request):
             family = Family.objects.get(qf)
         except Exception as e:
             return render(request, 'task_add.html',
-                    {'task_form': task_form, 'child_form': child_form, 
+                    {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form,
                      'family': family_name, 'parent': parent_name,
                      'tasks': existing_tasks, 'error': str(e)})
         ''' extract existing task for above family '''
@@ -186,7 +188,7 @@ def add_task(request):
             ''' if no children hasnt been added to the family display error '''
             if f['child_name'] == '-------': 
                 return render(request, 'task_add.html',
-                        {'task_form': task_form, 'child_form': child_form, 
+                        {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form,
                          'family': family_name, 'parent': parent_name,
                          'tasks': existing_tasks, 'error': 'Add atleast one child.'})
             ''' part where we check if user has free account and if he can add any more children '''
@@ -194,7 +196,7 @@ def add_task(request):
             ac_type = family.ac_type
             if ac_type == 'Free' and children > 1:
                 return render(request, 'task_add.html',
-                        {'task_form': task_form, 'child_form': child_form, 
+                        {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form,
                          'family': family_name, 'parent': parent_name,
                          'tasks': existing_tasks, 'error': 'Free version allows only 2(two) children/family.'})
             child = Child(child_name=f['child_name'], child_family=family)
@@ -203,7 +205,7 @@ def add_task(request):
                 return redirect('task-add') 
                 ''' when new child in save into DB return POST request of this function '''
         ''' if form is valid then save task '''
-        if taskform.is_bound:
+        if taskform.is_bound and taskform['task_name'].data != None:
             f = taskform
             ''' try to get a child and add task to that child, except display error on the page '''
             try:
@@ -217,7 +219,26 @@ def add_task(request):
             except Exception as e:
                 ''' handle exception with error msg '''
                 return render(request, 'task_add.html',
-                        {'task_form': task_form, 'child_form': child_form, 
+                        {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form,
+                         'family': family_name, 'parent': parent_name,
+                         'tasks': existing_tasks, 'error': str(e)})
+        ''' if schedule form is valid then save schedule '''
+        if scheduleform.is_bound and scheduleform['sc_desc'] != None:
+            f = scheduleform
+            print("sc")
+            print(f)
+            ''' try to get child from db and then save schedule '''
+            try:
+                child = Child.objects.get(child_family=family, child_name=f['sc_child'].data)
+                ''' construct schedule and save it if possible '''
+                schedule = Schedule(schedule_desc=f['sc_desc'].data, schedule_day=f['sc_day'].data,
+                                    schedule_child=child, schedule_family=family)
+                if schedule is not None:
+                    schedule.save()
+            except Exception as e:
+                ''' handle exception with error msg '''
+                return render(request, 'task_add.html',
+                        {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form,
                          'family': family_name, 'parent': parent_name,
                          'tasks': existing_tasks, 'error': str(e)})
         ''' if all good then save username and family name/surname into sesstion data '''
@@ -241,7 +262,7 @@ def add_task(request):
         except Exception as e:
             ''' if getting the family from db by username failed display error on the page '''
             return render(request, 'task_add.html',
-                    {'task_form': task_form, 'child_form': child_form, 
+                    {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form,
                      'family': family_name, 'parent': parent_name,
                      'tasks': existing_tasks, 'error': str(e)})
         family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)] 
