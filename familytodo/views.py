@@ -10,6 +10,7 @@ from .forms import (FamilyRegistrationForm,
                     ChildLoginForm,
                     ChildAddForm,
                     TaskAddForm,
+                    ScheduleAddForm,
                     FreeParentForm,
                     PaidParentForm)
 
@@ -17,7 +18,8 @@ from .forms import (FamilyRegistrationForm,
 from .models import (Family,
                      Parent,
                      Child,
-                     Task)
+                     Task,
+                     Schedule)
 
 ''' index view that just renders index.html nothing special '''
 def index(request):
@@ -228,6 +230,7 @@ def add_task(request):
         ''' construct empty forms that will be render and modified '''
         child_form = ChildAddForm()
         task_form = TaskAddForm()
+        schedule_form = ScheduleAddForm()
         ''' retrive family name, username and parent name from sesstion data '''
         family_name = request.session.get('family_name')
         family_username = request.session.get('family_username')
@@ -246,13 +249,17 @@ def add_task(request):
         ''' if family has no children added yet display ------ else fill choices with family children '''
         if len(family_kids) != 0:
             task_form.fields['task_child'].choices = family_kids
-            task_form.fields['task_child'].initial = family_kids[0] 
+            task_form.fields['task_child'].initial = family_kids[0]
+            schedule_form.fields['sc_child'].choices = family_kids 
+            schedule_form.fields['sc_child'].initial = family_kids[0] 
         else:
             task_form.fields['task_child'].choices = [('-------','-------')]
             task_form.fields['task_child'].initial =  ('-------','-------')
+            schedule_form.fields['sc_child'].choices = [('-------','-------')]
+            schedule_form.fields['sc_child'].initial =  ('-------','-------')
         ''' return and render html template with all data from above '''
         return render(request, 'task_add.html',
-                {'task_form': task_form, 'child_form': child_form, 
+                {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form, 
                  'family': family_name, 'parent': parent_name,
                  'tasks': existing_tasks})
 
