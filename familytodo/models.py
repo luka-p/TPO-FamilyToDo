@@ -93,3 +93,7 @@ class Schedule(models.Model):
     schedule_child = models.ForeignKey(Child, on_delete=models.CASCADE, verbose_name="Schedule belongs to child", null=True)
     ''' schedule family, one family can have more then one schedule '''
     schedule_family = models.ForeignKey(Family, on_delete=models.CASCADE, verbose_name="Schedule belongs to family", null=True)
+
+    ''' overwrite of default __str__ method, returns description of schedule '''
+    def __str__(self):
+        return self.schedule_desc
