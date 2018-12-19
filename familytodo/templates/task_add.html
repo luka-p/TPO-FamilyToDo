@@ -8,6 +8,11 @@
 </form>
 <form action="" method="POST">
     {% csrf_token %}
+    {{ schedule_form.as_p }}
+    <input type="submit" value="Add schedule">
+</form>
+<form action="" method="POST">
+    {% csrf_token %}
     {{ child_form.as_p }}
     <input type="submit" value="Add child">
 </form>
