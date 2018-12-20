@@ -391,6 +391,7 @@ def edit_task(request, task_id):
     else:
         ''' fetch all data needed '''
         child_form = ChildAddForm()
+        schedule_form = ScheduleAddForm()
         family_name = request.session.get('family_name')
         family_username = request.session.get('family_username')
         parent_name = request.session.get('parent_name')
@@ -410,7 +411,7 @@ def edit_task(request, task_id):
         task_form.fields['task_child'].choices = family_kids
         ''' return render html with "new" form, form with existing data that was already in db '''
         return render(request, 'task_add.html',
-                {'task_form': task_form, 'child_form': child_form, 
+                {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form,
                  'family': family_name, 'parent': parent_name,
                  'tasks': existing_tasks, 'schedules': existing_schedules})
 
