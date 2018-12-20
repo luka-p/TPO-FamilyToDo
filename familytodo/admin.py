@@ -29,5 +29,5 @@ class TaskAdmin(admin.ModelAdmin):
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
     ''' columns to display on admin page '''
-    list_display=['schedule_desc', 'schedule_day', 'schedule_child', 'schedule_family']
+    list_display=['schedule_desc', 'schedule_day', 'schedule_time', 'schedule_child', 'schedule_family']
 

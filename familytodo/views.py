@@ -232,7 +232,7 @@ def add_task(request):
                 child = Child.objects.get(child_family=family, child_name=f['sc_child'].data)
                 ''' construct schedule and save it if possible '''
                 schedule = Schedule(schedule_desc=f['sc_desc'].data, schedule_day=f['sc_day'].data,
-                                    schedule_child=child, schedule_family=family)
+                                    schedule_time=f['sc_time'].data, schedule_child=child, schedule_family=family)
                 if schedule is not None:
                     schedule.save()
             except Exception as e:

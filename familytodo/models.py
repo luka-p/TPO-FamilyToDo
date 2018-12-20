@@ -89,6 +89,8 @@ class Schedule(models.Model):
     schedule_desc = models.CharField('Schedule', max_length=30)
     ''' schedule day '''
     schedule_day = models.CharField('Day of this schedule', max_length=10, choices=DAYS)
+    ''' schedule time '''
+    schedule_time = models.TimeField('Time in that day', blank=True, null=True)
     ''' schedule child, child can have more then one/none schedules '''
     schedule_child = models.ForeignKey(Child, on_delete=models.CASCADE, verbose_name="Schedule belongs to child", null=True)
     ''' schedule family, one family can have more then one schedule '''

@@ -61,5 +61,6 @@ class TaskAddForm(forms.Form):
 class ScheduleAddForm(forms.Form):
     sc_desc = forms.CharField(label="Schedule description", max_length=30, strip=True)
     sc_day = forms.ChoiceField(label="Day of the week", choices=DAYS, initial='MONDAY') 
+    sc_time = forms.TimeField(label="Time", widget=forms.TimeInput(format='%H:%M'))
     sc_child = forms.ChoiceField(label="Child", choices=[(c.child_name, c.child_name) for c in Child.objects.all()])
 
