@@ -369,18 +369,18 @@ def edit_task(request, task_id):
     if request.method == 'POST':
         ''' if form is valid, replace data with new data from form '''
         taskform = TaskAddForm(request.POST)
-        if taskform.is_valid():
-            f = taskform.cleaned_data
+        if taskform.is_bound and taskform['task_name'].data != None:
+            f = taskform
             family = task.task_family
             try:
-                child = Child.objects.get(child_family = family, child_name = f['task_child'])
+                child = Child.objects.get(child_family=family, child_name=f['task_child'].data)
             except Exception as e:
                 return redirect('task-add')
             ''' replaceing '''
-            task.task_name = f['task_name']
-            task.task_importance = f['task_importance']
-            task.task_reward = f['task_reward']
-            task.task_due = f['task_due']
+            task.task_name = f['task_name'].data
+            task.task_importance = f['task_importance'].data
+            task.task_reward = f['task_reward'].data
+            task.task_due = f['task_due'].data
             task.task_child = child
             ''' saving '''
             if task is not None:
