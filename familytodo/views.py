@@ -390,3 +390,4 @@ def logout(request):
     for key in list(request.session.keys()):
         del request.session[key]
     return redirect('index')
+

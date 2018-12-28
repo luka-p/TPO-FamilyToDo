@@ -1,11 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <p>{{ family }}</p>
-  {% for task in tasks %}
-  <a href="{% url 'complete-task' task.id %}">{{ task.task_name }}</a>
-  <br>
-  {% endfor %}
-  <br>
-  <a href="{% url 'logout' %}">Logout</a>
+
+<div id="Task-display" class="container-fluid">
+
+  <div class="row">
+    {% for task in tasks %}
+    <div class="col-sm col-md-4 col-lg-3">
+      <div class="card m-2 text-center">
+        <h3 class="card-title">{{ task.task_name }}</h3>
+        <h6 class="card-subtitle mb-2 text-muted">{{ task.task_importance }}</h6>
+        <p class="card-text">Reward: {{ task.task_reward }}</p>
+        <p class="card-text">Due in: {{ task.task_due }} days</p>
+        <p class="card-text">Child: {{ task.task_child }}</p>
+        <a href="{% url 'task-edit' task.id %}" onclick="switchTab(event,
+                                                'Add-task')">{{ task.task_name }}</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="row">
+    <a class="btn btn-primary mt-5" href="{% url 'logout' %}">Logout</a>
+  </div>
 {% endblock %}

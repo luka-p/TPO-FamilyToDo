@@ -18,3 +18,22 @@ function openCity(evt, cityName) {
   document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+function switchTab(evt, tabName){
+  //variables
+  var i, tmp, containers, tablinks;
+
+  // Get all containers and hide them
+  containers = document.getElementsByClassName("container-fluid");
+
+
+  for(i = 0; i < containers.length; i++){
+    if(containers[i].id === tabName){
+      containers[i].style.display="flex";
+    }else{
+      containers[i].style.display="none";
+    }
+  }
+
+
+}

@@ -40,7 +40,7 @@ class Child(models.Model):
     child_name = models.CharField('Children name', max_length=30)
     ''' Family can have many children but child can have only one family, many-to-one '''
     child_family = models.ForeignKey(Family, on_delete=models.CASCADE, verbose_name='Family of child')
-    
+
     ''' overwrite of default __str__ method, returns name of child '''
     def __str__(self):
         return self.child_name

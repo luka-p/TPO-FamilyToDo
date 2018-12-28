@@ -1,13 +1,48 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
-{% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'familytodo/style.css' %}">
+{% block navbar %}
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" onclick="switchTab(event,
+                                          'Add-task')">Add task</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" onclick="switchTab(event,
+                                          'Add-child')">Add child</a>
+      </li>
+    </ul>
+{% endblock %}
 
 {% block content %}
-<div class="page">
+<div id="Add-task" class="container-fluid ta">
+  {% crispy task_form %}
+</div>
+<div id="Task-display" class="container-fluid">
+
+  <div class="row">
+    {% for task in tasks %}
+    <div class="col-sm col-md-4 col-lg-3">
+      <div class="card m-2 text-center">
+        <h3 class="card-title">{{ task.task_name }}</h3>
+        <h6 class="card-subtitle mb-2 text-muted">{{ task.task_importance }}</h6>
+        <p class="card-text">Reward: {{ task.task_reward }}</p>
+        <p class="card-text">Due in: {{ task.task_due }} days</p>
+        <p class="card-text">Child: {{ task.task_child }}</p>
+        <a href="{% url 'task-edit' task.id %}" onclick="switchTab(event,
+                                                'Add-task')">{{ task.task_name }}</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="row">
+    <a class="btn btn-primary mt-5" href="{% url 'complete-delete' %}">Delete completed tasks</a>
+    <a class="btn btn-primary mt-5" href="{% url 'logout' %}">Logout</a>
+  </div>
+
+  <!--
   <div class="tabbed-content">
-    <!-- Tab links -->
     <div class="tab">
       <button class="tablinks" onclick="openCity(event, 'User')">User</button>
       <button class="tablinks" onclick="openCity(event, 'Add-task')">Add task</button>
@@ -28,15 +63,8 @@
         {% crispy child_form %}
     </div>
     <div id="Tasks" class="tabcontent">
-      {% for task in tasks %}
-      <a href="{% url 'task-edit' task.id %}">{{ task.task_name }}</a>
-      <br>
-      {% endfor %}
-      <br>
-      <a class="btn btn-primary" href="{% url 'complete-delete' %}">Delete completed tasks</a>
-      <br>
-      <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
     </div>
   </div>
+  -->
 </div>
 {% endblock %}
