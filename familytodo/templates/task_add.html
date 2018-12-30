@@ -1,22 +1,13 @@
-<<<<<<< HEAD
-=======
-<!--
-<p>{{ error }}</p>
->>>>>>> 452544eee067358a16a5082052d9d8c0cc9250fc
-<p>{{ family }}</p>
+<!--<p>{{ family }}</p>
 {% for task in tasks %}
 <a href="{% url 'complete-task' task.id %}">{{ task.task_name }}</a>
 <br>
 {% endfor %}
 <br>
-<a href="{% url 'logout' %}">Logout</a>
-<<<<<<< HEAD
+<a href="{% url 'logout' %}">Logout</a> -->
 
 {% load static %}
 
-=======
--->
->>>>>>> 452544eee067358a16a5082052d9d8c0cc9250fc
 <!DOCTYPE html>
 <html>
 	<head>
@@ -27,7 +18,6 @@
 		<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:700, 600,500,400,300' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-<<<<<<< HEAD
 		<link rel="stylesheet" href="{% static 'familytodo/main.css' %}">
 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -42,22 +32,6 @@
 	</head>
 	<body>
 
-=======
-		<link rel="stylesheet" href="main.css">
-
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-		<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-		<script src="https://code.highcharts.com/highcharts.js"></script>
-		<script src="https://code.highcharts.com/modules/data.js"></script>
-		<script src="main.js"></script>
-
-	</head>
-	<body>
-		
->>>>>>> 452544eee067358a16a5082052d9d8c0cc9250fc
 	<div class="side-nav">
 			<div class="logo">
 				<i class="fa fa-tachometer"></i>
@@ -71,22 +45,14 @@
 							<span>Tasks</span>
 						</a>
 					</li>
-<<<<<<< HEAD
 
-=======
-					
->>>>>>> 452544eee067358a16a5082052d9d8c0cc9250fc
 					<li>
 							<a href="" data-toggle="modal" data-target="#myModal1">
 								<span><i class="fa fa-user"></i></span>
 								<span >Add Child</span>
 							</a>
 					</li>
-<<<<<<< HEAD
 
-=======
-					
->>>>>>> 452544eee067358a16a5082052d9d8c0cc9250fc
 					<li>
 						<a href="{% url 'logout' %}">
 							<span><i class="fa fa-sign-out" aria-hidden="true"></i></span>
@@ -101,11 +67,7 @@
 			<div class="title">
 				Tasks
 			</div>
-<<<<<<< HEAD
 
-=======
-			
->>>>>>> 452544eee067358a16a5082052d9d8c0cc9250fc
 
 			<!--
 			<div class="main">
@@ -121,11 +83,7 @@
 					<div class="title">Number of comments</div>
 					<div class="chart"></div>
 				</div>
-<<<<<<< HEAD
 
-=======
-			
->>>>>>> 452544eee067358a16a5082052d9d8c0cc9250fc
 			</div>
 			-->
 
@@ -134,11 +92,7 @@
 						<button type="button" class="btn btn-success btn-circle  btn-xl" data-toggle="modal" data-target="#myModal" ><i class="glyphicon">+</i></button>
 					</div>
 			</div>
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 452544eee067358a16a5082052d9d8c0cc9250fc
 		<!-- Modal-->
 				<div class="modal fade" id="myModal" role="dialog">
 					<div class="modal-dialog">
@@ -150,22 +104,14 @@
 						<h4 class="modal-title">Add task</h4>
 						</div>
 						<div class="modal-body">
-<<<<<<< HEAD
 
-=======
-							
->>>>>>> 452544eee067358a16a5082052d9d8c0cc9250fc
 
 							<form action="" method="POST">
 								{% csrf_token %}
 								<div class="form-group">
 									<input type="text" name="task_name" class="form-control" placeholder="Task name"  />
 								</div>
-<<<<<<< HEAD
 
-=======
-					
->>>>>>> 452544eee067358a16a5082052d9d8c0cc9250fc
 								<div class="form-group">
 									<label for="sel1">Task importance:</label>
 									<select class="form-control" id="sel1" name="task_importance">
@@ -176,7 +122,6 @@
 								</div>
 
 								<div class="form-group">
-<<<<<<< HEAD
 										<input type="text" name="task_reward" class="form-control" placeholder="Task reward"  />
 								</div>
 
@@ -193,43 +138,17 @@
 								</div>
 
 
-=======
-										<input type="text" name="task_reward" class="form-control" placeholder="Task reward"  />			
-								</div>
-								
-								<div class="form-group">
-									<input type="number" min="1" step="1" name="task_due" class="form-control" placeholder="Task due days"  />			
-								</div>
-
-								<div class="form-group">
-										<input type="text" name="task_child" class="form-control" placeholder="Child"  />			
-								</div>
-					
-								<div class="form-group">
-									<input type="submit" class="btn btn-success" value="Add task" />
-								</div>
-								
-													
->>>>>>> 452544eee067358a16a5082052d9d8c0cc9250fc
 							</form>
 
 							<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 							</div>
 					</div>
-<<<<<<< HEAD
 
 				</div>
 
 		</div>
 	</div>
-=======
-					
-				</div>
-			
-		</div>
-	</div>	
->>>>>>> 452544eee067358a16a5082052d9d8c0cc9250fc
 
 	<!-- DODAJANJE OTROKA -->
 	<div id="myModal1" class="modal fade" role="dialog">
@@ -247,17 +166,10 @@
 						<div class="form-group">
 							<input type="text" name="child_name" class="form-control" placeholder="Child name"  />
 						</div>
-<<<<<<< HEAD
 
 						<div class="form-group">
 							<input type="submit" class="btn btn-success" value="Add child" />
 						</div>
-=======
-			
-						<div class="form-group">
-							<input type="submit" class="btn btn-success" value="Add child" />
-						</div>					
->>>>>>> 452544eee067358a16a5082052d9d8c0cc9250fc
 					</form>
 		</div>
 		<div class="modal-footer">
@@ -268,14 +180,7 @@
 	</div>
 	</div>
 
-<<<<<<< HEAD
 
 
 	</body>
 </html>
-=======
-	
-	  
-	</body>
-</html>
->>>>>>> 452544eee067358a16a5082052d9d8c0cc9250fc
