@@ -6,67 +6,67 @@
     <input type="submit" value="Submit">
 </form>
 <a href="{% url 'logout' %}">Back</a>
+
 -->
-
-
-
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Family registration</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
 
-    <title>Family register</title>
-</head>
-<body>
-                
-        <div class="container login-container text-center col-md-2 ">
-                    <div class="row">
-                        <div class="col-md-12 login-form-1">
-                            <br><br>
-                            <h3>Family registration</h3>
-                            <br><br>
-                            <form action="" method="POST">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    <input type="text" name="family_name" class="form-control" placeholder="Family name *"  />
-                                </div>
+		<!-- STYLE CSS -->
+		<link rel="stylesheet" href="css/style.css">
+	</head>
 
-                                <div class="form-group">
-                                    <input type="text" name="family_username" class="form-control" placeholder="Family username *"  />
-                                    
-                                </div>
+	<body>
 
-                                <div class="form-group">
-                                        <input type="password" name="family_password" class="form-control" placeholder="Full password *" />
-                                </div>
+		<div class="wrapper" style="background-image: url('http://placehold.it/1400x940');">
+			<div class="inner">
+				<div class="image-holder">
+					<img src="http://placehold.it/450x550" alt="">
+				</div>
+				<form action="" method="POST">
+					{% csrf_token %}
+					<h3>Family registration</h3>
 
-                                <div class="form-group" >
-                                        <input type="password" name="family_easy_password" class="form-control" placeholder="Easy password *" />
-                                </div>
+					<div class="form-wrapper">
+							<input type="text" name="family_name" class="form-control" placeholder="Family name *"  />
+					</div>
 
-                                <p>Account type</p>
-                                {{ form.account_type}}
+					<div class="form-wrapper">
+							<input type="text" name="family_username" class="form-control" placeholder="Family username *"  />
+					</div>
 
+					<div class="form-wrapper">
+							<input type="password" name="family_password" class="form-control" placeholder="Full password *" />
+					</div>
 
-                                <div class="form-group">
-                                        <input type="submit" class="btnSubmit" value="Register" />
-                                </div>
-                                
-                                <div class="form-group">
-                                        <a href="{% url 'logout' %}">Back</a>
-                                </div>
-                                
-                            </form>
-                        </div>
-        </div>
+					<div class="form-wrapper" >
+							<input type="password" name="family_easy_password" class="form-control" placeholder="Easy password *" />
+					</div>
 
-        <link rel="stylesheet" href="css/style.css">
-</body>
+					<h4>Account type</h4>
+                    {{ form.account_type}}
+
+					
+
+					<button type="submit">Register
+						<i class="zmdi zmdi-arrow-right"></i>
+					</button>
+					
+					<div class="form-group">
+
+							<a href="{% url 'logout' %}" role="button">Back</a>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+	</body>
 </html>
-

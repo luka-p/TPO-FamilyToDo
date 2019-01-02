@@ -1,11 +1,26 @@
-<!--<p>{{ family }}</p>
+<!--
+<p>{{ error }}</p>
+<p>{{ family }}</p>
+<p>{{ parent }}</p>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ task_form.as_p }}
+    <input type="submit" value="Add/Save task">
+</form>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ child_form.as_p }}
+    <input type="submit" value="Add child">
+</form>
 {% for task in tasks %}
-<a href="{% url 'complete-task' task.id %}">{{ task.task_name }}</a>
+<a href="{% url 'task-edit' task.id %}">{{ task.task_name }}</a>
 <br>
 {% endfor %}
 <br>
-<a href="{% url 'logout' %}">Logout</a> -->
-
+<a href="{% url 'complete-delete' %}">Delete completed tasks</a>
+<br>
+<a href="{% url 'logout' %}">Logout</a>
+-->
 {% load static %}
 
 <!DOCTYPE html>
@@ -35,13 +50,19 @@
 	<div class="side-nav">
 			<div class="logo">
 				<i class="fa fa-tachometer"></i>
-				<span>{{ family_name }}</span>
+				<span>{{ family }}</span>
 		</div>
 			<nav>
 				<ul>
+                    <li>
+                            <a href="#">
+                            <span><i class="fa fa-user"></i></span>
+							<span>Parent: {{ parent }}</span>
+
+                    </li>
 					<li>
 						<a href="#">
-							<span><i class="fa fa-user"></i></span>
+							<span><i class="fa fa-tasks"></i></span>
 							<span>Tasks</span>
 						</a>
 					</li>
@@ -51,7 +72,13 @@
 								<span><i class="fa fa-user"></i></span>
 								<span >Add Child</span>
 							</a>
-					</li>
+                    </li>
+                    
+                    <li>
+                        <a href="{% url 'complete-delete' %}">
+                        <span><i class="fa fa-remove" aria-hidden="true"></i></span>
+						<span>Delete tasks</span>    
+                    </li>
 
 					<li>
 						<a href="{% url 'logout' %}">
@@ -66,26 +93,15 @@
 		<div class="main-content">
 			<div class="title">
 				Tasks
-			</div>
-
-
-			<!--
-			<div class="main">
-				<div class="widget">
-					<div class="title">Number of views</div>
-					<div class="chart"></div>
-				</div>
-				<div class="widget">
-					<div class="title">Number of likes</div>
-					<div class="chart"></div>
-				</div>
-				<div class="widget">
-					<div class="title">Number of comments</div>
-					<div class="chart"></div>
-				</div>
-
-			</div>
-			-->
+            </div>
+            
+             <!--MALU DIZAJN POPRAVIT DA SO LEPŠE IZPISANI TASKI-->
+            {% for task in tasks %}
+                <div>
+                    <a href="{% url 'complete-task' task.id %}">{{ task.task_name }}</a>
+                    <br>
+                </div>        
+            {% endfor %}
 
 			<div class="outside" >
 					<div class="inside">
@@ -130,7 +146,16 @@
 								</div>
 
 								<div class="form-group">
-										<input type="text" name="task_child" class="form-control" placeholder="Child"  />
+                                      <!--  <input type="text" name="task_child" class="form-control" placeholder="Child"  /> -->
+                                        <select class="form-control" name="task_child">
+                                            <option ></option>
+                                        
+                                    <!--TLE RABI SASMU PO NASTALIH otrokih iterirat da imamo možnost izbire sam nism vedu kako po otrokih iterirat ku po taskih zgorej :D-->
+                                        {% for child in child_form %}
+                                        <option >{{ child.task_child }} </option>
+                                        <br>
+                                        {% endfor %}
+                                        </select>
 								</div>
 
 								<div class="form-group">
@@ -162,6 +187,7 @@
 		</div>
 		<div class="modal-body">
 				<form action="" method="POST">
+                   
 						{% csrf_token %}
 						<div class="form-group">
 							<input type="text" name="child_name" class="form-control" placeholder="Child name"  />
@@ -169,8 +195,10 @@
 
 						<div class="form-group">
 							<input type="submit" class="btn btn-success" value="Add child" />
-						</div>
-					</form>
+                        </div>
+                            
+                    
+				</form>
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -1,3 +1,5 @@
+
+<!--
 <p>{{ family }}</p>
 {% for task in tasks %}
 <a href="{% url 'complete-task' task.id %}">{{ task.task_name }}</a>
@@ -7,7 +9,7 @@
 <a href="{% url 'logout' %}">Logout</a>
 
 {% load static %}
-
+-->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -35,23 +37,18 @@
 	<div class="side-nav">
 			<div class="logo">
 				<i class="fa fa-tachometer"></i>
-				<span>{{ family_name }}</span>
+				<span>{{ family }}</span>
 		</div>
 			<nav>
 				<ul>
 					<li>
 						<a href="#">
 							<span><i class="fa fa-user"></i></span>
-							<span>Tasks</span>
+                            <span>Tasks</span>
+                            
 						</a>
 					</li>
 
-					<li>
-							<a href="" data-toggle="modal" data-target="#myModal1">
-								<span><i class="fa fa-user"></i></span>
-								<span >Add Child</span>
-							</a>
-					</li>
 
 					<li>
 						<a href="{% url 'logout' %}">
@@ -65,9 +62,16 @@
 		<!--POLJE Z VSEBINO-->
 		<div class="main-content">
 			<div class="title">
-				Tasks
-			</div>
-
+                Tasks
+                
+            </div>
+             <!--MALU DIZAJN POPRAVIT DA SO LEPŠE IZPISANI TASKI-->
+             {% for task in tasks %}
+             <div>
+                 <a href="{% url 'complete-task' task.id %}">{{ task.task_name }}</a>
+                 <br>
+             </div>        
+            {% endfor %}
 
 			<!--
 			<div class="main">
@@ -87,99 +91,10 @@
 			</div>
 			-->
 
-			<div class="outside" >
-					<div class="inside">
-						<button type="button" class="btn btn-success btn-circle  btn-xl" data-toggle="modal" data-target="#myModal" ><i class="glyphicon">+</i></button>
-					</div>
-			</div>
-
-		<!-- Modal-->
-				<div class="modal fade" id="myModal" role="dialog">
-					<div class="modal-dialog">
-
-					<!-- Modal content-->
-					<div class="modal-content">
-						<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Add task</h4>
-						</div>
-						<div class="modal-body">
-
-
-							<form action="" method="POST">
-								{% csrf_token %}
-								<div class="form-group">
-									<input type="text" name="task_name" class="form-control" placeholder="Task name"  />
-								</div>
-
-								<div class="form-group">
-									<label for="sel1">Task importance:</label>
-									<select class="form-control" id="sel1" name="task_importance">
-										<option>High</option>
-										<option>Medium</option>
-										<option>Low</option>
-									</select>
-								</div>
-
-								<div class="form-group">
-										<input type="text" name="task_reward" class="form-control" placeholder="Task reward"  />
-								</div>
-
-								<div class="form-group">
-									<input type="number" min="1" step="1" name="task_due" class="form-control" placeholder="Task due days"  />
-								</div>
-
-								<div class="form-group">
-										<input type="text" name="task_child" class="form-control" placeholder="Child"  />
-								</div>
-
-								<div class="form-group">
-									<input type="submit" class="btn btn-success" value="Add task" />
-								</div>
-
-
-							</form>
-
-							<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							</div>
-					</div>
-
-				</div>
+			
 
 		</div>
 	</div>
-
-	<!-- DODAJANJE OTROKA -->
-	<div id="myModal1" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-
-		<!-- Modal content-->
-		<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h4 class="modal-title">Add Child</h4>
-		</div>
-		<div class="modal-body">
-				<form action="" method="POST">
-						{% csrf_token %}
-						<div class="form-group">
-							<input type="text" name="child_name" class="form-control" placeholder="Child name"  />
-						</div>
-
-						<div class="form-group">
-							<input type="submit" class="btn btn-success" value="Add child" />
-						</div>
-					</form>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		</div>
-		</div>
-
-	</div>
-	</div>
-
 
 
 	</body>

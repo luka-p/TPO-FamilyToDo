@@ -11,47 +11,51 @@
 -->
 
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
-    
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Child login</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
 
-    <title>Child login</title>
-</head>
-<body>
-                
-        <div class="container login-container text-center col-md-2 ">
-                    <div class="row">
-                        <div class="col-md-12 login-form-1">
-                            <br>
-                            <h3>Child login</h3>
-                            <br>
-                            <form action="" method="POST">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    <input type="text" name="family_username" class="form-control" placeholder="Family username *"  />
-                                </div>
+		<!-- STYLE CSS -->
+		<link rel="stylesheet" href="css/styleChildLogin.css">
+	</head>
 
-                                <div class="form-group">
-                                        <input type="password" name="family_easy_password" class="form-control" placeholder="Family password *" />
-                                </div>
+	<body>
 
-                                <div class="form-group">
-                                        <input type="submit" class="btnSubmit" value="Login" />
-                                </div>
-                                
-                                <div class="form-group">
-                                        <a href="{% url 'logout' %}">Back</a>
-                                </div>
-                                
-                            </form>
-                        </div>
-        </div>
-</body>
+		<div class="wrapper" style="background-image: url('http://placehold.it/1400x940');">
+			<div class="inner">
+				<div class="image-holder">
+					<img src="http://placehold.it/450x550" alt="">
+				</div>
+				<form action="" method="POST">
+					{% csrf_token %}
+					<h3>Child login</h3>
+
+					<div class="form-wrapper">
+							<input type="text" name="family_username" class="form-control" placeholder="Family username *"  />
+					</div>
+
+					<div class="form-wrapper">
+							<input type="password" name="family_easy_password" class="form-control" placeholder="Family password *" />
+					</div>
+
+					<button type="submit">Login
+						<i class="zmdi zmdi-arrow-right"></i>
+					</button>
+					
+					<div class="form-group">
+
+							<a href="{% url 'logout' %}" role="button">Back</a>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+	</body>
 </html>
