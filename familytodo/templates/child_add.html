@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{# add back to control pannel to navbar on all sites #}
+{% block navbar %}
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'control-panel' %}">Control panel</a>
+  </li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<div id="Add-task" class="container-fluid">
+  <div class="row justify-content-center">
+      {% crispy child_form %}
+  </div>
+</div>
+{% endblock %}
