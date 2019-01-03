@@ -134,7 +134,7 @@ def login_parent(request):
                     request.session['family_username'] = family_username
                     request.session['parent_name'] = parent_name
                     ''' redirect to control panel eg. task adding page '''
-                    return redirect('task-add')
+                    return redirect('control-panel')
                 else:
                     ''' else if login credentials weren't correct render new form with error '''
                     ''' or just raise and then catch it '''
@@ -153,6 +153,8 @@ def login_parent(request):
 
 @require_http_methods(["GET", "POST"])
 def add_task(request):
+    addChild = False
+    tmp = request.GET.get('id')
     ''' POST '''
     if request.method == 'POST':
         ''' fill data from html into forms '''
@@ -221,10 +223,15 @@ def add_task(request):
         ''' if all good then save username and family name/surname into sesstion data '''
         request.session['family_username'] = family_username
         request.session['family_name'] = family_name
-        ''' in the end redirect back to itself with get method '''
-        return redirect('task-add')
+        ''' in the end redirect back to itself with get method  // redirect to task-display'''
+        return redirect('task-display')
         ''' GET '''
     else:
+        ''' if GET request is from control panel - add children
+            set variable to true
+        '''
+        if tmp == '123':
+            addChild = True
         ''' construct empty forms that will be render and modified '''
         child_form = ChildAddForm()
         task_form = TaskAddForm()
@@ -243,6 +250,7 @@ def add_task(request):
                      'tasks': existing_tasks, 'error': str(e)})
         family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)]
         existing_tasks = [t for t in Task.objects.filter(task_family=family)]
+        children = [c for c in Child.objects.filter(child_family=family)]
         ''' if family has no children added yet display ------ else fill choices with family children '''
         if len(family_kids) != 0:
             task_form.fields['task_child'].choices = family_kids
@@ -254,7 +262,7 @@ def add_task(request):
         return render(request, 'task_add.html',
                 {'task_form': task_form, 'child_form': child_form,
                  'family': family_name, 'parent': parent_name,
-                 'tasks': existing_tasks})
+                 'tasks': existing_tasks, 'addChild': addChild, 'children': children})
 
     ''' error page if view failed '''
     return render(request, 'error.html')
@@ -326,8 +334,8 @@ def complete_task(request, task_id):
 def delete_complete(request):
     ''' delete all tasks that have task_complete set to TRUE '''
     Task.objects.filter(task_complete__exact=True).delete()
-    ''' redirect back to parent control panel site/task adding site '''
-    return redirect('task-add')
+    ''' redirect back to parent control panel site/task adding site // redirect to task-display'''
+    return redirect('task-display')
 
 @require_http_methods(["GET", "POST"])
 def edit_task(request, task_id):
@@ -356,8 +364,8 @@ def edit_task(request, task_id):
             ''' saving '''
             if task is not None:
                 task.save()
-            ''' redirect back to control panel eg task-add page '''
-            return redirect('task-add')
+            ''' redirect back to control panel eg task-add page // redirect to task display'''
+            return redirect('task-display')
             ''' GET '''
     else:
         ''' fetch all data needed '''
@@ -391,3 +399,6 @@ def logout(request):
         del request.session[key]
     return redirect('index')
 
+@require_http_methods(["GET", "POST"])
+def control_panel(request):
+    return render(request, 'control_panel.html')

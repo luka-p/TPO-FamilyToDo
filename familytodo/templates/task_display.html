@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 
+{# add back to control pannel to navbar on all sites #}
+{% block navbar %}
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'control-panel' %}">Control panel</a>
+  </li>
+</ul>
+{% endblock %}
+
 {% block content %}
 
 <div id="Task-display" class="container-fluid">
@@ -13,14 +22,9 @@
         <p class="card-text">Reward: {{ task.task_reward }}</p>
         <p class="card-text">Due in: {{ task.task_due }} days</p>
         <p class="card-text">Child: {{ task.task_child }}</p>
-        <a href="{% url 'task-edit' task.id %}" onclick="switchTab(event,
-                                                'Add-task')">{{ task.task_name }}</a>
+        <a href="{% url 'task-edit' task.id %}" onclick="switchTab(event,'Add-task')">{{ task.task_name }}</a>
       </div>
     </div>
     {% endfor %}
-  </div>
-
-  <div class="row">
-    <a class="btn btn-primary mt-5" href="{% url 'logout' %}">Logout</a>
   </div>
 {% endblock %}

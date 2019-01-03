@@ -9,7 +9,8 @@ from .views import (index,
                     display_task,
                     complete_task,
                     delete_complete,
-                    edit_task)
+                    edit_task,
+                    control_panel)
 
 urlpatterns = [
     path('', index, name='index'),
@@ -23,4 +24,5 @@ urlpatterns = [
     path('complete-task/<task_id>', complete_task, name='complete-task'),
     path('delete-completed', delete_complete, name='complete-delete'),
     path('task-edit/<task_id>', edit_task, name='task-edit'),
+    path('control-panel', control_panel, name='control-panel'),
 ]

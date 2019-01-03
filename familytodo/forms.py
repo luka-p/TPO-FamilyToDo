@@ -2,6 +2,9 @@ from django import forms
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Button
+from crispy_forms import layout, bootstrap
+from crispy_forms.bootstrap import InlineField, FormActions, StrictButton, Div, FieldWithButtons
+
 from crispy_forms.bootstrap import (
     PrependedText, PrependedAppendedText, FormActions)
 
@@ -63,11 +66,15 @@ class ChildLoginForm(forms.Form):
 
 ''' Child add form '''
 class ChildAddForm(forms.Form):
-    child_name = forms.CharField(label="Child name", max_length=30, strip=True)
-
+    child_name = forms.CharField(label="", max_length=30, strip=True,
+    widget=forms.TextInput(attrs={'placeholder': 'Child name',
+                                    'class': 'form-control-lg mr-2'}))
     helper = FormHelper()
     helper.form_method = 'POST'
-    helper.add_input(Submit('submit', 'Add child', css_class='btn-primary'))
+    helper.layout = Layout(
+        FieldWithButtons('child_name', StrictButton('+', type='submit', css_class=' btn btn-primary')),
+    )
+    #helper.add_input(Submit('submit', '+', css_class='btn-primary'))
 
 ''' Task adding form '''
 class TaskAddForm(forms.Form):

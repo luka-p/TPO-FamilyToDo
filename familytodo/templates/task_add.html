@@ -1,70 +1,42 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
+{# add back to control pannel to navbar on all sites #}
 {% block navbar %}
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" onclick="switchTab(event,
-                                          'Add-task')">Add task</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" onclick="switchTab(event,
-                                          'Add-child')">Add child</a>
-      </li>
-    </ul>
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'control-panel' %}">Control panel</a>
+  </li>
+</ul>
 {% endblock %}
 
-{% block content %}
-<div id="Add-task" class="container-fluid ta">
-  {% crispy task_form %}
+{% block content %} 
+{% if addChild %}
+<div class="container-fluid">
+<div class="row justify-content-center">
+    <h3>Children</h3>
 </div>
-<div id="Task-display" class="container-fluid">
-
-  <div class="row">
-    {% for task in tasks %}
-    <div class="col-sm col-md-4 col-lg-3">
-      <div class="card m-2 text-center">
-        <h3 class="card-title">{{ task.task_name }}</h3>
-        <h6 class="card-subtitle mb-2 text-muted">{{ task.task_importance }}</h6>
-        <p class="card-text">Reward: {{ task.task_reward }}</p>
-        <p class="card-text">Due in: {{ task.task_due }} days</p>
-        <p class="card-text">Child: {{ task.task_child }}</p>
-        <a href="{% url 'task-edit' task.id %}" onclick="switchTab(event,
-                                                'Add-task')">{{ task.task_name }}</a>
+  {% for child in children %}
+  <div class="row justify-content-center">
+    <div class="col-3 form-control m-2">
+      {{ child.child_name }}
+    </div>
+  </div>
+  {% endfor %}
+  <div class="row justify-content-center">
+      <div class="col-3 m-2">
+        {% crispy child_form %}
       </div>
     </div>
-    {% endfor %}
-  </div>
-
-  <div class="row">
-    <a class="btn btn-primary mt-5" href="{% url 'complete-delete' %}">Delete completed tasks</a>
-    <a class="btn btn-primary mt-5" href="{% url 'logout' %}">Logout</a>
-  </div>
-
-  <!--
-  <div class="tabbed-content">
-    <div class="tab">
-      <button class="tablinks" onclick="openCity(event, 'User')">User</button>
-      <button class="tablinks" onclick="openCity(event, 'Add-task')">Add task</button>
-      <button class="tablinks" onclick="openCity(event, 'Child')">Add children</button>
-      <button class="tablinks" onclick="openCity(event, 'Tasks')">View tasks</button>
-    </div>
-    <div id="User" class="tabcontent">
-      <p>{{ error }}</p>
-      <p>{{ family }}</p>
-      <p>{{ parent }}</p>
-    </div>
-    <div id="Add-task" class="tabcontent">
-        {% csrf_token %}
-        {% crispy task_form %}
-    </div>
-    <div id="Child" class="tabcontent">
-        {% csrf_token %}
-        {% crispy child_form %}
-    </div>
-    <div id="Tasks" class="tabcontent">
-    </div>
-  </div>
-  -->
 </div>
+
+
+</div>
+{% else %}
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    {% crispy task_form %}
+  </div>
+</div>
+{% endif %}
 {% endblock %}
