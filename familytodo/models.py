@@ -52,7 +52,7 @@ IMPORTANCE = (
     ('LOW', 'Low'))
 
 ''' tuple for children add form choices '''
-CHILDREN = [(c.child_name, c.child_name) for c in Child.objects.all()]
+#CHILDREN = [(c.child_name, c.child_name) for c in Child.objects.all()]
 
 ''' Task model '''
 class Task(models.Model):
