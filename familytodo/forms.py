@@ -55,12 +55,12 @@ class TaskAddForm(forms.Form):
     task_importance = forms.ChoiceField(label="Task importance", choices=IMPORTANCE, initial='MEDIUM') 
     task_reward = forms.CharField(label="Task reward", max_length=30, strip=True, required=False)
     task_due = forms.IntegerField(label="Taks due days", min_value=0, error_messages=err_msg)
-    task_child = forms.ChoiceField(label="Child", choices=[(c.child_name, c.child_name) for c in Child.objects.all()])
+    task_child = forms.ChoiceField(label="Child", choices=[])
 
 ''' Schedule adding form '''
 class ScheduleAddForm(forms.Form):
     sc_desc = forms.CharField(label="Schedule description", max_length=30, strip=True)
     sc_day = forms.ChoiceField(label="Day of the week", choices=DAYS, initial='MONDAY') 
     sc_time = forms.TimeField(label="Time", widget=forms.TimeInput(format='%H:%M'))
-    sc_child = forms.ChoiceField(label="Child", choices=[(c.child_name, c.child_name) for c in Child.objects.all()])
+    sc_child = forms.ChoiceField(label="Child", choices=[])
 
