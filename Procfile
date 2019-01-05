@@ -1,1 +1,1 @@
-web: gunicorn todo.wsgi --log-file -
+web: python3 manage.py runserver
