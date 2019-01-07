@@ -73,11 +73,11 @@
 								<span >Add Child</span>
 							</a>
                     </li>
-                    
+
                     <li>
                         <a href="{% url 'complete-delete' %}">
                         <span><i class="fa fa-remove" aria-hidden="true"></i></span>
-						<span>Delete tasks</span>    
+						<span>Delete tasks</span>
                     </li>
 
 					<li>
@@ -94,13 +94,13 @@
 			<div class="title">
 				Tasks
             </div>
-            
+
              <!--MALU DIZAJN POPRAVIT DA SO LEPŠE IZPISANI TASKI-->
             {% for task in tasks %}
                 <div>
                     <a href="{% url 'complete-task' task.id %}">{{ task.task_name }}</a>
                     <br>
-                </div>        
+                </div>
             {% endfor %}
 
 			<div class="outside" >
@@ -149,7 +149,7 @@
                                       <!--  <input type="text" name="task_child" class="form-control" placeholder="Child"  /> -->
                                         <select class="form-control" name="task_child">
                                             <option ></option>
-                                        
+
                                     <!--TLE RABI SASMU PO NASTALIH otrokih iterirat da imamo možnost izbire sam nism vedu kako po otrokih iterirat ku po taskih zgorej :D-->
                                         {% for child in child_form %}
                                         <option >{{ child.task_child }} </option>
@@ -187,7 +187,7 @@
 		</div>
 		<div class="modal-body">
 				<form action="" method="POST">
-                   
+
 						{% csrf_token %}
 						<div class="form-group">
 							<input type="text" name="child_name" class="form-control" placeholder="Child name"  />
@@ -196,8 +196,8 @@
 						<div class="form-group">
 							<input type="submit" class="btn btn-success" value="Add child" />
                         </div>
-                            
-                    
+
+
 				</form>
 		</div>
 		<div class="modal-footer">

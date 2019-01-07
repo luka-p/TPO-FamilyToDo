@@ -10,20 +10,23 @@
 
 -->
 
+{% load static %}
+
+
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<title>Child login</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		
+
 		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	
+
 
 		<!-- STYLE CSS -->
-		<link rel="stylesheet" href="css/styleChildLogin.css">
+		<link rel="stylesheet" href="{% static 'familytodo/css/styleChildLogin.css' %}">
 	</head>
 
 	<body>
@@ -48,7 +51,7 @@
 					<button type="submit">Login
 						<i class="zmdi zmdi-arrow-right"></i>
 					</button>
-					
+
 					<div class="form-group">
 
 							<a href="{% url 'logout' %}" role="button">Back</a>
@@ -56,6 +59,6 @@
 				</form>
 			</div>
 		</div>
-		
+
 	</body>
 </html>
