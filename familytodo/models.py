@@ -52,7 +52,7 @@ IMPORTANCE = (
     ('LOW', 'Low'))
 
 ''' tuple for children add form choices '''
-CHILDREN = [(c.child_name, c.child_name) for c in Child.objects.all()]
+#CHILDREN = [(c.child_name, c.child_name) for c in Child.objects.all()]
 
 ''' Task model '''
 class Task(models.Model):
@@ -73,3 +73,29 @@ class Task(models.Model):
     ''' overwrite of default __str__ method, returns name of task '''
     def __str__(self):
         return self.task_name
+
+DAYS = (
+    ('MONDAY', 'Monday'),
+    ('TUESDAY', 'Tudesday'),
+    ('WEDENSDAY', 'Wedensday'),
+    ('THURSDAY', 'Thursday'),
+    ('FRIDAY', 'Friday'),
+    ('SATURDAY', 'Saturday'),
+    ('SUNDAY', 'Sunday'))
+
+''' Schedule model '''
+class Schedule(models.Model):
+    ''' schedule description '''
+    schedule_desc = models.CharField('Schedule', max_length=30)
+    ''' schedule day '''
+    schedule_day = models.CharField('Day of this schedule', max_length=10, choices=DAYS)
+    ''' schedule time '''
+    schedule_time = models.TimeField('Time in that day', blank=True, null=True)
+    ''' schedule child, child can have more then one/none schedules '''
+    schedule_child = models.ForeignKey(Child, on_delete=models.CASCADE, verbose_name="Schedule belongs to child", null=True)
+    ''' schedule family, one family can have more then one schedule '''
+    schedule_family = models.ForeignKey(Family, on_delete=models.CASCADE, verbose_name="Schedule belongs to family", null=True)
+
+    ''' overwrite of default __str__ method, returns description of schedule '''
+    def __str__(self):
+        return self.schedule_desc

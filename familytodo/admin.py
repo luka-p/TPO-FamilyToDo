@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Family, Parent, Child, Task
+from .models import Family, Parent, Child, Task, Schedule
 
 ''' Admin model register '''
 @admin.register(Family)
@@ -24,4 +24,10 @@ class ChildAdmin(admin.ModelAdmin):
 class TaskAdmin(admin.ModelAdmin):
     ''' columns to display on admin page '''
     list_display=['task_name', 'task_complete', 'task_importance', 'task_reward', 'task_due', 'task_family', 'task_child'] 
+
+''' Schedule model register '''
+@admin.register(Schedule)
+class ScheduleAdmin(admin.ModelAdmin):
+    ''' columns to display on admin page '''
+    list_display=['schedule_desc', 'schedule_day', 'schedule_time', 'schedule_child', 'schedule_family']
 
