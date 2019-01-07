@@ -29,7 +29,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'qrx@-e5vnwljer=e28xwm6opt&%vjb
 #DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = ['sheltered-fortress-69283.herokuapp.com']
+ALLOWED_HOSTS = ['sheltered-fortress-69283.herokuapp.com',
+                'db-familytodo.herokuapp.com']
 
 
 # Application definition
