@@ -1,0 +1,14 @@
+<p>{{ family }}</p>
+<p>{{ parent }}</p>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ schedule_form.as_p }}
+    <input type="submit" value="Add schedule">
+</form>
+{% for schedule in schedules %}
+<a>{{ schedule.schedule_desc }}</a>
+<br>
+{% endfor %}
+<br>
+<a href="{% url 'logout' %}">Logout</a>
+

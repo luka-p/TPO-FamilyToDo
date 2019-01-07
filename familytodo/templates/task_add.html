@@ -6,20 +6,6 @@
     {{ task_form.as_p }}
     <input type="submit" value="Add/Save task">
 </form>
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ schedule_form.as_p }}
-    <input type="submit" value="Add schedule">
-</form>
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ child_form.as_p }}
-    <input type="submit" value="Add child">
-</form>
-{% for schedule in schedules %}
-<a>{{ schedule.schedule_desc }}</a>
-<br>
-{% endfor %}
 {% for task in tasks %}
 <a href="{% url 'task-edit' task.id %}">{{ task.task_name }}</a>
 <br>

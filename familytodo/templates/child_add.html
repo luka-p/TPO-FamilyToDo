@@ -1,0 +1,13 @@
+<p>{{ family }}</p>
+<p>{{ parent }}</p>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ child_form.as_p }}
+    <input type="submit" value="Add child">
+</form>
+{% for kid in kids %}
+<a>{{ kid }}</a>
+<br>
+{% endfor %}
+<br>
+<a href="{% url 'logout' %}">Logout</a>
