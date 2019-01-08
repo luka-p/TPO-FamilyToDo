@@ -36,9 +36,13 @@
 					{% csrf_token %}
 					<h3>Parent register</h3>
 
+					{% for field in form.visible_fields %}
 					<div class="form-wrapper">
-							<input type="text" name="parent_name" class="form-control" placeholder="Parent name *"  />
+						{{ field.errors }}
+						{{ field }}
+						{{ field.help_text }}
 					</div>
+					{% endfor %}
 
 					<button type="submit">Register
 						<i class="zmdi zmdi-arrow-right"></i>

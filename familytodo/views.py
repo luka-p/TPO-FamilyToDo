@@ -172,6 +172,8 @@ def add_task(request):
         ''' query that finds the specific family by its username '''
         qf = Q(family_username=family_username)
         ''' get family used in both forms, taks add and child add '''
+
+        
         try:
             family = Family.objects.get(qf)
         except Exception as e:
@@ -184,6 +186,8 @@ def add_task(request):
         existing_schedules = [s for s in Schedule.objects.filter(schedule_family=family)]
         ''' first check if child can be added  to the family and then if we can add task '''
         ''' if children adding form is valid save that child into loged in family '''
+        #get list of children
+        children_list = [c for c in Child.objects.filter(child_family=family)]
         if childform.is_valid():
             f = childform.cleaned_data
             ''' if no children hasnt been added to the family display error '''
@@ -191,7 +195,7 @@ def add_task(request):
                 return render(request, 'task_add.html',
                         {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form,
                          'family': family_name, 'parent': parent_name,
-                         'tasks': existing_tasks, 'schedules': existing_schedules, 'error': 'Add atleast one child.'})
+                         'tasks': existing_tasks, 'schedules': existing_schedules, 'error': 'Add atleast one child.', 'children': children_list})
             ''' part where we check if user has free account and if he can add any more children '''
             children = len(Child.objects.filter(child_family=family))
             ac_type = family.ac_type
@@ -200,7 +204,7 @@ def add_task(request):
                         {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form,
                          'family': family_name, 'parent': parent_name,
                          'tasks': existing_tasks, 'schedules': existing_schedules,
-                         'error': 'Free version allows only 2(two) children/family.'})
+                         'error': 'Free version allows only 2(two) children/family.', 'children': children_list})
             child = Child(child_name=f['child_name'], child_family=family)
             if child is not None:
                 child.save()
@@ -223,7 +227,7 @@ def add_task(request):
                 return render(request, 'task_add.html',
                         {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form,
                          'family': family_name, 'parent': parent_name,
-                         'tasks': existing_tasks, 'schedules': existing_schedules, 'error': str(e)+'task'})
+                         'tasks': existing_tasks, 'schedules': existing_schedules, 'error': str(e)+'task', 'children': children_list})
         ''' if schedule form is valid then save schedule '''
         if scheduleform.is_bound and scheduleform['sc_desc'].data != None:
             f = scheduleform
@@ -240,7 +244,7 @@ def add_task(request):
                 return render(request, 'task_add.html',
                         {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form,
                          'family': family_name, 'parent': parent_name,
-                         'tasks': existing_tasks, 'schedules': existing_schedules, 'error': str(e)+'schedule'})
+                         'tasks': existing_tasks, 'schedules': existing_schedules, 'error': str(e)+'schedule', 'children': children_list})
         ''' if all good then save username and family name/surname into sesstion data '''
         request.session['family_username'] = family_username
         request.session['family_name'] = family_name
@@ -264,10 +268,14 @@ def add_task(request):
             return render(request, 'task_add.html',
                     {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form,
                      'family': family_name, 'parent': parent_name,
-                     'tasks': [], 'schedules': [], 'error': str(e)})
+                     'tasks': [], 'schedules': [], 'error': str(e), 'children': children_list})
         family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)] 
         existing_tasks = [t for t in Task.objects.filter(task_family=family)]
         existing_schedules = [s for s in Schedule.objects.filter(schedule_family=family)]
+
+        # get list of children
+
+        children_list = [c for c in Child.objects.filter(child_family=family)]
         ''' if family has no children added yet display ------ else fill choices with family children '''
         if len(family_kids) != 0:
             task_form.fields['task_child'].choices = family_kids
@@ -283,7 +291,7 @@ def add_task(request):
         return render(request, 'task_add.html',
                 {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form, 
                  'family': family_name, 'parent': parent_name,
-                 'tasks': existing_tasks, 'schedules': existing_schedules})
+                 'tasks': existing_tasks, 'schedules': existing_schedules, 'children': children_list})
 
     ''' error page if view failed '''
     return render(request, 'error.html')

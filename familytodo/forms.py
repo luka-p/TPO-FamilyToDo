@@ -1,4 +1,5 @@
 from django import forms
+
 ''' import child from models because this is dynamic
 so it changes or can be changed every time that TaskAddForm is called
 and because of that we need to refresh choices every time we call this form '''
@@ -18,27 +19,27 @@ err_msg = {
 ''' Family registration form '''
 class FamilyRegistrationForm(forms.Form):
     ''' Family name, usename and passwords '''
-    family_name = forms.CharField(label="Family name/surename", max_length=30, strip=True)
-    family_username = forms.CharField(label="Family username", max_length=30, strip=True)
-    family_password = forms.CharField(label="Full password", max_length=30, widget=forms.PasswordInput)
-    family_easy_password = forms.IntegerField(label="Easy password", min_value=0000, max_value=9999, widget=forms.PasswordInput, error_messages=err_msg)
+    family_name = forms.CharField(label="Family name/surename", max_length=30, strip=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Family name/surename'}))
+    family_username = forms.CharField(label="Family username", max_length=30, strip=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Family username'}))
+    family_password = forms.CharField(label="Full password", max_length=30, widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Full password'}))
+    family_easy_password = forms.IntegerField(label="Easy password", min_value=0000, max_value=9999, widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Easy password'}), error_messages=err_msg)
     account_type = forms.ChoiceField(label="Account type", choices=ACTYPE, widget=forms.RadioSelect)
-    
+
 
 class FreeParentForm(forms.Form):
     ''' Free users can add only one parent '''
-    parent_name = forms.CharField(label="Parent name", max_length=30, strip=True)
+    parent_name = forms.CharField(label="Parent name", max_length=30, strip=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Parent name'}))
 
 class PaidParentForm(forms.Form):
     ''' Paid users can add two parents '''
-    father_name = forms.CharField(label="Father name", max_length=30, strip=True)
-    mother_name = forms.CharField(label="Mother name", max_length=30, strip=True)
+    father_name = forms.CharField(label="Father name", max_length=30, strip=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Father name'}))
+    mother_name = forms.CharField(label="Mother name", max_length=30, strip=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Mother name'}))
 
 ''' Family login form '''
 class FamilyLoginForm(forms.Form):
-    family_username = forms.CharField(label="Family username", max_length=30, strip=True)
-    family_parent = forms.CharField(label="Parent name", max_length=30, strip=True)
-    family_password = forms.CharField(label="Family password", max_length=30, widget=forms.PasswordInput)
+    family_username = forms.CharField(label="Family username", max_length=30, strip=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Family username'}) )
+    family_parent = forms.CharField(label="Parent name", max_length=30, strip=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Parent name'}))
+    family_password = forms.CharField(label="Family password", max_length=30, widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Family password'}))
 
 ''' Child login form '''
 class ChildLoginForm(forms.Form):

@@ -37,7 +37,26 @@
 				<form action="" method="POST">
 					{% csrf_token %}
 					<h3>Family registration</h3>
+					<p>{{ error }}</p>
 
+					{{ form.non_field_errors }}
+					{% for field in form.visible_fields %}
+					<div class="form-wrapper">
+						{% if field.name == "account_type" %}
+							<h4>Account type</h4>
+							{% for choice in field %}
+								<span class="radio">{{ choice.tag }}</span>
+								{{ choice.choice_label }} <br>
+							{% endfor %}
+						{% else %}
+							{{ field.errors }}
+							{{ field }}
+							{{ field.help_text }}
+						{% endif %}
+					</div>
+					{% endfor %}
+
+					<!--
 					<div class="form-wrapper">
 							<input type="text" name="family_name" class="form-control" placeholder="Family name *"  />
 					</div>
@@ -55,7 +74,8 @@
 					</div>
 
 					<h4>Account type</h4>
-                    {{ form.account_type}}
+                    {{ form.account_type }}
+					-->
 
 
 

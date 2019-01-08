@@ -36,6 +36,31 @@
 				</div>
 				<form action="" method="POST">
 					{% csrf_token %}
+
+					<h3>Parent login</h3>
+				  	<p>{{ error }}</p>
+
+					{{ form.non_field_errors }}
+					{% for field in form.visible_fields %}
+					<div class="form-wrapper">
+						{{ field.errors }}
+						{{ field }}
+						{{ field.help_text }}
+					</div>
+					{% endfor %}
+
+					<button type="submit">Login
+						<i class="zmdi zmdi-arrow-right"></i>
+					</button>
+
+					<div class="form-group">
+
+							<a href="{% url 'logout' %}" role="button">Back</a>
+					</div>
+				</form>
+				<!--
+				<form action="" method="POST">
+					{% csrf_token %}
 					<h3>Parent login</h3>
 
 					<div class="form-wrapper">
@@ -59,6 +84,7 @@
 							<a href="{% url 'logout' %}" role="button">Back</a>
 					</div>
 				</form>
+				-->
 			</div>
 		</div>
 
