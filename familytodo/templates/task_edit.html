@@ -107,30 +107,27 @@
 
              <!--MALU DIZAJN POPRAVIT DA SO LEPŠE IZPISANI TASKI-->
             <div id="Task-display" class="container-fluid">
-
+                <form action="" method="POST">
 				<div class="row">
-					{% for task in tasks %}
 					<div class="col-sm col-md-4 col-lg-3">
-					<div class="card m-2 ">
-						<div class="card-body">
-							<h3 class="card-title">{{ task.task_name }}</h3>
-							<h6 class="card-subtitle mb-2 text-muted">{{ task.task_importance }}</h6>
-							<p class="card-text">Reward: {{ task.task_reward }}<br>
-							Due in: {{ task.task_due }} days<br>
-							Child: {{ task.task_child }}<br>
-							{% if task.task_complete == True %}
-								Completed: <i class="fa fa-check-square-o"></i>  
-							{% else %}
-								Completed: <i class="fa fa-square-o"></i>  
-							{% endif %}
-							</p>
-							
-							<a href="{% url 'task-edit' task.id %}" class="card-link">Edit</a>
-						</div>
+                        <div class="card m-2 ">
+                            <div class="card-body">
+                                {{ task_form.task_name.label }}
+                                {{ task_form.task_name }} <br>
+                                {{ task_form.task_importance.label }}
+                                {{ task_form.task_importance }}<br>
+                                {{ task_form.task_reward.label  }}
+                                {{ task_form.task_reward }}<br>
+                                Due in: {{ task_form.task_due }}<br>
+                                Child: {{ task_form.task_child }}
+                            </div>
+                            <div class="card-footer">
+                                <input type="submit" class="btn btn-success pull-right" value="Save" />
+                            </div>
+                        </div>
 					</div>
-					</div>
-					{% endfor %}
 				</div>
+                </form>
 			</div>
 
 			<!--
@@ -156,19 +153,6 @@
 						<div class="modal-body">
 							<form action="" method="POST">
 								{% csrf_token %}
-								<p>{{ error }}</p>
-
-								{{ task_form.non_field_errors }}
-								{% for field in task_form.visible_fields %}
-								<div class="form-group">
-									{{ field.errors }}
-									{{ field }}
-									{{ field.help_text }}
-								</div>
-								{% endfor %}
-								
-								<!--
-								{% csrf_token %}
 								<div class="form-group">
 									<input type="text" name="task_name" class="form-control" placeholder="Task name"  />
 								</div>
@@ -191,16 +175,17 @@
 								</div>
 
 								<div class="form-group">
+                                      <!--  <input type="text" name="task_child" class="form-control" placeholder="Child"  /> -->
                                         <select class="form-control" name="task_child">
                                             <option ></option>
 
+                                    <!--TLE RABI SASMU PO NASTALIH otrokih iterirat da imamo možnost izbire sam nism vedu kako po otrokih iterirat ku po taskih zgorej :D-->
                                         {% for child in children %}
                                         <option >{{ child.child_name }} </option>
                                         <br>
                                         {% endfor %}
                                         </select>
 								</div>
-								-->
 
 								<div class="form-group">
 									<input type="submit" class="btn btn-success" value="Add task" />

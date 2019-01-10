@@ -22,10 +22,12 @@
 		<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 		<link rel="stylesheet" href="{% static 'familytodo/main.css' %}">
 
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+		<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+		
 		<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 		<script src="https://code.highcharts.com/highcharts.js"></script>
 		<script src="https://code.highcharts.com/modules/data.js"></script>
@@ -66,12 +68,30 @@
                 
             </div>
              <!--MALU DIZAJN POPRAVIT DA SO LEPŠE IZPISANI TASKI-->
-             {% for task in tasks %}
-             <div>
-                 <a href="{% url 'complete-task' task.id %}">{{ task.task_name }}</a>
-                 <br>
-             </div>        
-            {% endfor %}
+             <div id="Task-display" class="container-fluid">
+
+				<div class="row">
+					{% for task in tasks %}
+					<div class="col-sm col-md-4 col-lg-3">
+					<div class="card m-2 ">
+						<div class="card-body">
+							<h3 class="card-title">{{ task.task_name }}</h3>
+							<h6 class="card-subtitle mb-2 text-muted">{{ task.task_importance }}</h6>
+							<p class="card-text">Reward: {{ task.task_reward }}<br>
+							Due in: {{ task.task_due }} days<br>
+							Child: {{ task.task_child }}<br>
+							{% if task.task_complete == True %}
+								Completed: <i class="fa fa-check-square-o"></i>  
+							{% else %}
+								Completed: <i class="fa fa-square-o"></i>  
+							{% endif %} </p>
+							<a href="{% url 'complete-task' task.id %}" class="card-link">Complete</a>
+						</div>
+					</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
 
 			<!--
 			<div class="main">

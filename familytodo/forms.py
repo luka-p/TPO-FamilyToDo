@@ -52,11 +52,11 @@ class ChildAddForm(forms.Form):
 
 ''' Task adding form '''
 class TaskAddForm(forms.Form):
-    task_name = forms.CharField(label="Task name", max_length=30, strip=True)
-    task_importance = forms.ChoiceField(label="Task importance", choices=IMPORTANCE, initial='MEDIUM') 
-    task_reward = forms.CharField(label="Task reward", max_length=30, strip=True, required=False)
-    task_due = forms.IntegerField(label="Taks due days", min_value=0, error_messages=err_msg)
-    task_child = forms.ChoiceField(label="Child", choices=[])
+    task_name = forms.CharField(label="Task name", max_length=30, strip=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task name'}))
+    task_importance = forms.ChoiceField(label="Task importance", choices=IMPORTANCE, initial='MEDIUM', widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Task importance'})) 
+    task_reward = forms.CharField(label="Task reward", max_length=30, strip=True, required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task reward'}))
+    task_due = forms.IntegerField(label="Taks due days", min_value=0, error_messages=err_msg, widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Task due date'}))
+    task_child = forms.ChoiceField(label="Child", choices=[], widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Child'}))
 
 ''' Schedule adding form '''
 class ScheduleAddForm(forms.Form):
