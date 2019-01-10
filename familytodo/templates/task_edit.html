@@ -3,7 +3,6 @@
 <p>{{ family }}</p>
 <p>{{ parent }}</p>
 <form action="" method="POST">
-    {% csrf_token %}
     {{ task_form.as_p }}
     <input type="submit" value="Add/Save task">
 </form>
@@ -89,7 +88,8 @@
              <!--MALU DIZAJN POPRAVIT DA SO LEPŠE IZPISANI TASKI-->
             <div id="Task-display" class="container-fluid">
                 <form action="" method="POST">
-				<div class="row">
+                     {% csrf_token %}
+                    <div class="row">
 					<div class="col-sm col-md-4 col-lg-3">
                         <div class="card m-2 ">
                             <div class="card-body">

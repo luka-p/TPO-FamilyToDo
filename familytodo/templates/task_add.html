@@ -25,115 +25,225 @@
 
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    	<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Responsive vertical menu navigation</title>
-		<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:700, 600,500,400,300' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-		<link rel="stylesheet" href="{% static 'familytodo/main.css' %}">
 
-    	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Responsive vertical menu navigation</title>
+	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:700, 600,500,400,300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	<link rel="stylesheet" href="{% static 'familytodo/main.css' %}">
 
-		<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	 crossorigin="anonymous">
 
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-		<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-		<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-		<script src="https://code.highcharts.com/highcharts.js"></script>
-		<script src="https://code.highcharts.com/modules/data.js"></script>
-		<script src="{% static 'familytodo/main.js' %}"></script>
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-	</head>
-	<body>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+	 crossorigin="anonymous"></script>
+	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+	<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/data.js"></script>
+	<script src="{% static 'familytodo/main.js' %}"></script>
+
+</head>
+
+<body>
 
 	<div class="side-nav">
-			<div class="logo">
-				<i class="fa fa-tachometer"></i>
-				<span>{{ family }}</span>
+		<div class="logo">
+			<i class="fa fa-tachometer"></i>
+			<span>{{ family }}</span>
 		</div>
-			<nav>
-				<ul>
-                    <li>
-                            <a href="#">
-                            <span><i class="fa fa-user"></i></span>
-							<span>Parent: {{ parent }}</span>
+		<nav>
+			<ul>
+				<li>
+					<a href="#">
+						<span><i class="fa fa-user"></i></span>
+						<span>Parent: {{ parent }}</span>
 
-                    </li>
-					<li>
-						<a href="{% url 'task-add' %}">
-							<span><i class="fa fa-tasks"></i></span>
-							<span>Tasks</span>
-						</a>
-					</li>
+				</li>
+				<li>
+					<a href="{% url 'task-add' %}">
+						<span><i class="fa fa-tasks"></i></span>
+						<span>Tasks</span>
+					</a>
+				</li>
 
-					<li>
-							<a href="" data-toggle="modal" data-target="#myModal">
-								<span><i class="fa fa-plus"></i></span>
-								<span >Add Task</span>
-							</a>
-                    </li>
+				<li>
+					<a href="" data-toggle="modal" data-target="#myModal">
+						<span><i class="fa fa-plus"></i></span>
+						<span>Add Task</span>
+					</a>
+				</li>
 
-					<li>
-							<a href="" data-toggle="modal" data-target="#myModal1">
-								<span><i class="fa fa-user"></i></span>
-								<span >Add Child</span>
-							</a>
-                    </li>
+				<li>
+					<a href="" data-toggle="modal" data-target="#myModal1">
+						<span><i class="fa fa-user"></i></span>
+						<span>Add Child</span>
+					</a>
+				</li>
+				<li>
+					<a href="" data-toggle="modal" data-target="#myModal2">
+						<span><i class="fa fa-user"></i></span>
+						<span>Add to Schedule</span>
+					</a>
+				</li>
 
-                    <li>
-                        <a href="{% url 'complete-delete' %}">
-                        <span><i class="fa fa-remove" aria-hidden="true"></i></span>
+				<li>
+					<a href="{% url 'complete-delete' %}">
+						<span><i class="fa fa-remove" aria-hidden="true"></i></span>
 						<span>Delete completed</span>
-                    </li>
+				</li>
 
-					<li>
-						<a href="{% url 'logout' %}">
-							<span><i class="fa fa-sign-out" aria-hidden="true"></i></span>
-							<span>Logout</span>
-						</a>
-					</li>
-				</ul>
-			</nav>
+				<li>
+					<a href="{% url 'logout' %}">
+						<span><i class="fa fa-sign-out" aria-hidden="true"></i></span>
+						<span>Logout</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+	<!--POLJE Z VSEBINO-->
+	<div class="main-content">
+		<div class="title">
+			Tasks
 		</div>
-		<!--POLJE Z VSEBINO-->
-		<div class="main-content">
-			<div class="title">
-				Tasks
-            </div>
 
-             <!--MALU DIZAJN POPRAVIT DA SO LEPŠE IZPISANI TASKI-->
-            <div id="Task-display" class="container-fluid">
 
-				<div class="row">
-					{% for task in tasks %}
-					<div class="col-sm col-md-4 col-lg-3">
-					<div class="card m-2 ">
+		<!--MALU DIZAJN POPRAVIT DA SO LEPŠE IZPISANI TASKI-->
+		<div id="Task-display" class="container-fluid">
+
+			<div class="row">
+				{% for task in tasks %}
+				<div class="col-sm col-md-4 col-lg-3">
+					<div class="card m-2" style="background-color:{% if task.task_complete == True %}#04B404
+					{% elif task.task_importance == 'LOW' %}#FFFF31
+					{% elif task.task_importance == 'MEDIUM' %}#FFB347
+					{% elif task.task_importance == 'HIGH' %}#E34234{% endif %};">
 						<div class="card-body">
 							<h3 class="card-title">{{ task.task_name }}</h3>
 							<h6 class="card-subtitle mb-2 text-muted">{{ task.task_importance }}</h6>
 							<p class="card-text">Reward: {{ task.task_reward }}<br>
-							Due in: {{ task.task_due }} days<br>
-							Child: {{ task.task_child }}<br>
-							{% if task.task_complete == True %}
-								Completed: <i class="fa fa-check-square-o"></i>  
-							{% else %}
-								Completed: <i class="fa fa-square-o"></i>  
-							{% endif %}
+								Due in: {{ task.task_due }} days<br>
+								Child: {{ task.task_child }}<br>
+								{% if task.task_complete == True %}
+								Completed: <i class="fa fa-check-square-o"></i>
+								{% else %}
+								Completed: <i class="fa fa-square-o"></i>
+								{% endif %}
 							</p>
-							
+
 							<a href="{% url 'task-edit' task.id %}" class="card-link">Edit</a>
 						</div>
 					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="title">
+			Schedules
+		</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="row">
+						<div class="col-md-4"></div> <!-- this column empty -->
+						<div class="col-md-4">
+							<h2 class="text-center">Monday</h2>
+							{% for s in schedules.0 %}
+							<div class="card m-1">
+								<div class="card-body">
+									<h3 class="card-title">{{ s }}</h3>
+									<h6 class="card-subtitle mb-2 text-muted">{{ s.schedule_time }}</h6>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+						<div class="col-md-4">
+							<h2 class="text-center">Tuesday</h2>
+							{% for s in schedules.1 %}
+							<div class="card m-1">
+								<div class="card-body">
+									<h3 class="card-title">{{ s }}</h3>
+									<h6 class="card-subtitle mb-2 text-muted">{{ s.schedule_time }}</h6>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
 					</div>
-					{% endfor %}
+				</div>
+
+				<div class="col-md-8">
+					<div class="row">
+						<div class="col-md-2">
+							<h2 class="text-center">Wednesday</h2>
+							{% for s in schedules.2 %}
+							<div class="card m-1">
+								<div class="card-body">
+									<h3 class="card-title">{{ s }}</h3>
+									<h6 class="card-subtitle mb-2 text-muted">{{ s.schedule_time }}</h6>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+						<div class="col-md-2">
+							<h2 class="text-center">Thursday</h2>
+							{% for s in schedules.3 %}
+							<div class="card m-1">
+								<div class="card-body">
+									<h3 class="card-title">{{ s }}</h3>
+									<h6 class="card-subtitle mb-2 text-muted">{{ s.schedule_time }}</h6>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+						<div class="col-md-2">
+							<h2 class="text-center">Friday</h2>
+							{% for s in schedules.4 %}
+							<div class="card m-1">
+								<div class="card-body">
+									<h3 class="card-title">{{ s }}</h3>
+									<h6 class="card-subtitle mb-2 text-muted">{{ s.schedule_time }}</h6>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+						<div class="col-md-2">
+							<h2 class="text-center">Saturday</h2>
+							{% for s in schedules.5 %}
+							<div class="card m-1">
+								<div class="card-body">
+									<h3 class="card-title">{{ s }}</h3>
+									<h6 class="card-subtitle mb-2 text-muted">{{ s.schedule_time }}</h6>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+						<div class="col-md-2">
+							<h2 class="text-center">Sunday</h2>
+							{% for s in schedules.6 %}
+							<div class="card m-1">
+								<div class="card-body">
+									<h3 class="card-title">{{ s }}</h3>
+									<h6 class="card-subtitle mb-2 text-muted">{{ s.schedule_time }}</h6>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+						<div class="col-md-2"></div> <!-- this column empty -->
+					</div>
 				</div>
 			</div>
+		</div>
 
-			<!--
+		<!--
 			<div class="outside" >
 					<div class="inside">
 						<button type="button" class="btn btn-success btn-circle btn-xl" data-toggle="modal" data-target="#myModal" ><i	class="glyphicon">+</i></button>
@@ -141,33 +251,33 @@
 			</div>
 			-->
 
-			
+
 
 		<!-- Modal-->
-				<div class="modal fade" id="myModal" role="dialog">
-					<div class="modal-dialog">
+		<div class="modal fade" id="myModal" role="dialog">
+			<div class="modal-dialog">
 
-					<!-- Modal content-->
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title">Add task</h4>
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-						</div>
-						<div class="modal-body">
-							<form action="" method="POST">
-								{% csrf_token %}
-								<p>{{ error }}</p>
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Add task</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<form action="" method="POST">
+							{% csrf_token %}
+							<p>{{ error }}</p>
 
-								{{ task_form.non_field_errors }}
-								{% for field in task_form.visible_fields %}
-								<div class="form-group">
-									{{ field.errors }}
-									{{ field }}
-									{{ field.help_text }}
-								</div>
-								{% endfor %}
-								
-								<!--
+							{{ task_form.non_field_errors }}
+							{% for field in task_form.visible_fields %}
+							<div class="form-group">
+								{{ field.errors }}
+								{{ field }}
+								{{ field.help_text }}
+							</div>
+							{% endfor %}
+
+							<!--
 								{% csrf_token %}
 								<div class="form-group">
 									<input type="text" name="task_name" class="form-control" placeholder="Task name"  />
@@ -202,57 +312,93 @@
 								</div>
 								-->
 
-								<div class="form-group">
-									<input type="submit" class="btn btn-success" value="Add task" />
-								</div>
-
-
-							</form>
-
-							<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<div class="form-group">
+								<input type="submit" class="btn btn-success" value="Add task" />
 							</div>
+
+
+						</form>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
 					</div>
 
 				</div>
 
-		</div>
-	</div>
-
-	<!-- DODAJANJE OTROKA -->
-	<div id="myModal1" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Add Child</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				<div class="modal-body">
-					<form action="" method="POST">
-
-						{% csrf_token %}
-						<div class="form-group">
-							<input type="text" name="child_name" class="form-control" placeholder="Child name"  />
-						</div>
-
-						<div class="form-group">
-							<input type="submit" class="btn btn-success" value="Add child" />
-						</div>
-
-
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
 			</div>
-
 		</div>
-	</div>
+
+		<!-- DODAJANJE OTROKA -->
+		<div id="myModal1" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Add Child</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<form action="" method="POST">
+
+							{% csrf_token %}
+							<div class="form-group">
+								<input type="text" name="child_name" class="form-control" placeholder="Child name" />
+							</div>
+
+							<div class="form-group">
+								<input type="submit" class="btn btn-success" value="Add child" />
+							</div>
+
+
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div id="myModal2" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Add to Schedule</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<form action="" method="POST">
+
+							{% csrf_token %}
+							{% for field in schedule_form %}
+							<div class="form-group">
+								{{ field }}<br>
+								<div>
+
+									{% endfor %}
+
+									<div class="form-group">
+										<input type="submit" class="btn btn-success" value="Add to Schedule" />
+									</div>
+
+
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
 
 
 
-	</body>
+</body>
+
 </html>
