@@ -5,6 +5,7 @@ so it changes or can be changed every time that TaskAddForm is called
 and because of that we need to refresh choices every time we call this form '''
 from .models import Child
 from .models import (IMPORTANCE,
+                    CHILDREN,
                      ACTYPE,
                      DAYS)
 
@@ -49,6 +50,10 @@ class ChildLoginForm(forms.Form):
 ''' Child add form '''
 class ChildAddForm(forms.Form):
     child_name = forms.CharField(label="Child name", max_length=30, strip=True)
+
+''' Child select form '''
+class ChildSelectForm(forms.Form):
+    child_name = forms.ChoiceField(label="Child", choices=CHILDREN, widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Child', 'onchange': 'this.form.submit()'}))
 
 ''' Task adding form '''
 class TaskAddForm(forms.Form):

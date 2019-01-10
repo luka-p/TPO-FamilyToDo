@@ -12,7 +12,8 @@ from .forms import (FamilyRegistrationForm,
                     TaskAddForm,
                     ScheduleAddForm,
                     FreeParentForm,
-                    PaidParentForm)
+                    PaidParentForm,
+                    ChildSelectForm)
 
 ''' models import from models.py '''
 from .models import (Family,
@@ -327,22 +328,56 @@ def login_child(request):
     ''' return and render chhild login html with form '''
     return render(request, 'child_login.html', {'form': form})
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "POST"])
 def display_task(request):
+    ''' child select forms '''
+    childform = ChildSelectForm(request.POST)
+    child_form = ChildSelectForm()
     ''' returns family name and existing tasks for loged in famiy '''
     ''' from session data retrive family name and username '''
     family_name = request.session.get('family_name')
     family_username = request.session.get('family_username')
+    ''' empty task list, if family has no children and no tasks '''
+    existing_tasks = [] 
     ''' make query to filter family by username'''
     qf = Q(family_username=family_username)
     try:
         family = Family.objects.get(qf)
     except Exception as e:
         return render(request, 'task_display.html', {'family': None, 'tasks': None, 'error': str(e)})
-    ''' one liner array of existing tasks for family '''
-    existing_tasks = [t for t in Task.objects.filter(task_family=family)]
+    ''' fill in the choices of the child select form with updated children for this family '''
+    family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)] 
+    if len(family_kids) != 0:
+        child_form.fields['child_name'].choices = family_kids
+        child_form.fields['child_name'].initial = family_kids[0]
+    else:
+        child_form.fields['child_name'].choices = [('-------','-------')]
+        child_form.fields['child_name'].initial =  ('-------','-------')
+    print(child_form.fields['child_name'].choices)
+    "POST"
+    if request.method == "POST":
+        if childform.is_valid():
+            f = childform.cleaned_data
+            ''' if no children hasnt been added to the family display error '''
+            if f['child_name'] == '-------': 
+                existing_tasks = [t for t in Task.objects.filter(task_family=family)]
+                return render(request, 'task_add.html',
+                        {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form,
+                         'family': family_name, 'parent': parent_name,
+                         'tasks': existing_tasks, 'schedules': existing_schedules})
+            child = Child.objects.filter(child_name=f['child_name']).filter(child_family=family)
+            if len(child) == 1:
+                existing_tasks = [t for t in Task.objects.filter(task_family=family, task_child=child[0])]
+                print(child[0])
+                return render(request, 'task_display.html', {'family': family_name, 'tasks': existing_tasks,
+                                                             'child_form': child_form})
+        "GET"
+    else:
+        ''' one liner array of existing tasks for family '''
+        existing_tasks = [t for t in Task.objects.filter(task_family=family)]
     ''' return and render task display html with array of tasks '''
-    return render(request, 'task_display.html', {'family': family_name, 'tasks': existing_tasks})
+    return render(request, 'task_display.html', {'family': family_name, 'tasks': existing_tasks,
+                                                 'child_form': child_form})
 
 @require_http_methods(["GET"])
 def complete_task(request, task_id):
