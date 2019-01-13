@@ -363,8 +363,7 @@ def display_task(request):
     ''' fill in the choices of the child select form with updated children for this family '''
     family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)]
     if len(family_kids) != 0:
-        family_kids.append(('All', 'All'))
-        family_kids.reverse()
+        family_kids.insert(0, ('All', 'All'))
         child_form.fields['child_name'].choices = family_kids
         child_form.fields['child_name'].initial = family_kids[0]
     else:
