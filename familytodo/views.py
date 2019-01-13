@@ -173,8 +173,6 @@ def add_task(request):
         ''' query that finds the specific family by its username '''
         qf = Q(family_username=family_username)
         ''' get family used in both forms, taks add and child add '''
-
-
         try:
             family = Family.objects.get(qf)
         except Exception as e:
@@ -365,28 +363,29 @@ def display_task(request):
     ''' fill in the choices of the child select form with updated children for this family '''
     family_kids = [(c.child_name, c.child_name) for c in Child.objects.filter(child_family=family)]
     if len(family_kids) != 0:
+        family_kids.append(('All', 'All'))
+        family_kids.reverse()
         child_form.fields['child_name'].choices = family_kids
         child_form.fields['child_name'].initial = family_kids[0]
     else:
         child_form.fields['child_name'].choices = [('-------','-------')]
         child_form.fields['child_name'].initial =  ('-------','-------')
-    print(child_form.fields['child_name'].choices)
     "POST"
     if request.method == "POST":
-        if childform.is_valid():
-            f = childform.cleaned_data
+        if childform.is_bound and childform['child_name'].data != None:
+            f = childform
             ''' if no children hasnt been added to the family display error '''
-            if f['child_name'] == '-------':
+            if f['child_name'].data == '-------': 
+                return render(request, 'task_display.html', {'family': family_name, 'tasks': [],
+                                                             'child_form': child_form})
+            elif f['child_name'].data == 'All':
                 existing_tasks = [t for t in Task.objects.filter(task_family=family)]
-                return render(request, 'task_add.html',
-                        {'task_form': task_form, 'child_form': child_form, 'schedule_form': schedule_form,
-                         'family': family_name, 'parent': parent_name,
-                         'tasks': existing_tasks, 'schedules': existing_schedules})
-            child = Child.objects.filter(child_name=f['child_name']).filter(child_family=family)
-            if len(child) == 1:
-                existing_tasks = [t for t in Task.objects.filter(task_family=family, task_child=child[0])]
-                print(child[0])
                 return render(request, 'task_display.html', {'family': family_name, 'tasks': existing_tasks,
+                                                             'child_form': child_form})
+            child = Child.objects.filter(child_name=f['child_name'].data).filter(child_family=family)
+            child_form.fields['child_name'].initial = f['child_name'].data
+            existing_tasks = [t for t in Task.objects.filter(task_family=family, task_child=child[0])]
+            return render(request, 'task_display.html', {'family': family_name, 'tasks': existing_tasks,
                                                              'child_form': child_form})
         "GET"
     else:
@@ -394,7 +393,7 @@ def display_task(request):
         existing_tasks = [t for t in Task.objects.filter(task_family=family)]
     ''' return and render task display html with array of tasks '''
     return render(request, 'task_display.html', {'family': family_name, 'tasks': existing_tasks,
-                                                 'child_form': child_form})
+'child_form': child_form})
 
 @require_http_methods(["GET"])
 def complete_task(request, task_id):
